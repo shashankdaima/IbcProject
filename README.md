@@ -4,8 +4,7 @@ This is project for IBC
 <ol>
 <li>Clone this repository</li>
 <li>Install GUI-Version of Ganache</li>
-<li>Install Truffle by command
-    ```shell sudo npm install -g truffle```
+<li>Install Truffle by command [sudo npm install -g truffle]
 </li>
 
 </ol>
