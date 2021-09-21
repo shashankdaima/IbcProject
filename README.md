@@ -24,4 +24,5 @@ This is project for IBC
     <li> Use `migrate` to deploy the smartcontracts </li>
 </ol>
 </li>
+<li>How to use Meta-Mask?<a href="https://www.youtube.com/watch?v=nUEBAS5r4Og">Youtube Video</a> </li>
 </ol>
