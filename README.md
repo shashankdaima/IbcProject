@@ -4,7 +4,24 @@ This is project for IBC
 <ol>
 <li>Clone this repository</li>
 <li>Install GUI-Version of Ganache</li>
-<li>Install Truffle by command [sudo npm install -g truffle]
-</li>
+<li>Install Truffle by command [sudo npm install -g truffle]</li>
+</ol>
+<h2>How to Run this project?</h2>
+<ol>
+<li>Start Ganache in Background</li>
+<li>One Terminal-1(cd into client directory)
+<ol>
+    <li> ```sudo npm install``` </li>
+    <li> Now, do the Terminal-2 Stuff Before Proceeding </li>
+    <li> ```npm run start``` </li>
+</ol>
 
+</li>
+<li>On Terminal-2 <ol>
+    <li> ```truffle develop``` </li>
+    <li> A development enviroment will open. </li>
+    <li> Use `compile` to compile the smartcontracts </li>
+    <li> Use `migrate` to deploy the smartcontracts </li>
+</ol>
+</li>
 </ol>
