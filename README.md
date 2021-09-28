@@ -9,14 +9,6 @@ This is project for IBC
 <h2>How to Run this project?</h2>
 <ol>
 <li>Start Ganache in Background</li>
-<li>One Terminal-1(cd into client directory)
-<ol>
-    <li> ```sudo npm install``` </li>
-    <li> Now, do the Terminal-2 Stuff Before Proceeding </li>
-    <li> ```npm run start``` </li>
-</ol>
-
-</li>
 <li>On Terminal-2 <ol>
     <li> ```truffle develop``` </li>
     <li> A development enviroment will open. </li>
@@ -24,5 +16,13 @@ This is project for IBC
     <li> Use `migrate` to deploy the smartcontracts </li>
 </ol>
 </li>
+<li>One Terminal-1(cd into client directory)
+<ol>
+    <li> ```sudo npm install``` </li>
+    <li> ```npm run start``` </li>
+</ol>
+
+</li>
+
 <li>How to use Meta-Mask?<a href="https://www.youtube.com/watch?v=nUEBAS5r4Og">Youtube Video</a> </li>
 </ol>
