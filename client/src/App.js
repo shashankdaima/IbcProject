@@ -1,8 +1,13 @@
 import React, { Component } from "react";
 import SimpleStorageContract from "./contracts/SimpleStorage.json";
 import getWeb3 from "./getWeb3";
-import {BrowserRouter as Router} from 'react-router-dom'
-
+import { BrowserRouter as Router, Route } from 'react-router-dom'
+import {Switch} from 'react-router'
+import ResultPage from "./pages/ResultPage";
+import HomePage from "./pages/HomePage";
+import MainCheckerPage from './pages/MainCheckerPage'
+import ReviewCheckerPage from './pages/ReviewCheckerPage'
+import StudentPostAnswerPage from './pages/StudentPostAnswerPage'
 import "./App.css";
 
 class App extends Component {
@@ -54,19 +59,31 @@ class App extends Component {
       return <div>Loading Web3, accounts, and contract...</div>;
     }
     return (
-      <div className="App">
-        <h1>Good to Go!</h1>
-        <p>Your Truffle Box is installed and ready.</p>
-        <h2>Smart Contract Example</h2>
-        <p>
-          If your contracts compiled and migrated successfully, below will show
-          a stored value of 5 (by default).
-        </p>
-        <p>
-          Try changing the value stored on <strong>line 42</strong> of App.js.
-        </p>
-        <div>The stored value is: {this.state.storageValue}</div>
-      </div>
+      
+      <Router>
+        <div className="App">
+          <div>
+            <Switch>
+              <Route exact path="/" >
+                <HomePage />
+              </Route>
+              <Route path="/result" >
+                <ResultPage />
+              </Route>
+              <Route path="/main_checker" >
+                <MainCheckerPage />
+              </Route>
+              <Route path="/review_checker" >
+                <ReviewCheckerPage />
+              </Route>
+              <Route path="/answer_upload" >
+                < StudentPostAnswerPage />
+              </Route>
+              
+            </Switch>
+          </div>
+        </div>
+      </Router>
     );
   }
 }
