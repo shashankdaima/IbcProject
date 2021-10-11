@@ -1,17 +1,21 @@
-import React, { Component } from "react";
+import React, { Component, useState } from "react";
 import SimpleStorageContract from "./contracts/SimpleStorage.json";
 import getWeb3 from "./getWeb3";
-import { BrowserRouter as Router, Route } from 'react-router-dom'
-import {Switch} from 'react-router'
+import { BrowserRouter as Router, Route, Link } from 'react-router-dom'
+import { Switch } from 'react-router'
 import ResultPage from "./pages/ResultPage";
 import HomePage from "./pages/HomePage";
 import MainCheckerPage from './pages/MainCheckerPage'
 import ReviewCheckerPage from './pages/ReviewCheckerPage'
 import StudentPostAnswerPage from './pages/StudentPostAnswerPage'
-import "./App.css";
-
+import {
+  Navbar,
+  Container
+} from 'reactstrap'; import "./App.css";
+import "./App.css"
 class App extends Component {
   state = { storageValue: 0, web3: null, accounts: null, contract: null };
+
 
   componentDidMount = async () => {
     try {
@@ -55,35 +59,47 @@ class App extends Component {
   };
 
   render() {
+
     if (!this.state.web3) {
       return <div>Loading Web3, accounts, and contract...</div>;
     }
     return (
-      
-      <Router>
-        <div className="App">
-          <div>
-            <Switch>
-              <Route exact path="/" >
-                <HomePage />
-              </Route>
-              <Route path="/result" >
-                <ResultPage />
-              </Route>
-              <Route path="/main_checker" >
-                <MainCheckerPage />
-              </Route>
-              <Route path="/review_checker" >
-                <ReviewCheckerPage />
-              </Route>
-              <Route path="/answer_upload" >
-                < StudentPostAnswerPage />
-              </Route>
-              
-            </Switch>
+      <div >
+        <Router>
+          <nav >
+            <div className="App-header">
+              <h1>Blockchain Examination Portal</h1>
+              <div id="horizontal">
+                <Link to='/' exact className="Toolbar-Text">Home </Link> 
+                <p>  &nbsp;  </p>
+                <Link to='/result' className ="Toolbar-Text">Result </Link>
+              </div>
+            </div>
+          </nav>
+          <div className="App">
+            <div>
+              <Switch>
+                <Route exact path="/" >
+                  <HomePage />
+                </Route>
+                <Route path="/result" >
+                  <ResultPage />
+                </Route>
+                <Route path="/main_checker" >
+                  <MainCheckerPage />
+                </Route>
+                <Route path="/review_checker" >
+                  <ReviewCheckerPage />
+                </Route>
+                <Route path="/answer_upload" >
+                  < StudentPostAnswerPage />
+                </Route>
+
+              </Switch>
+            </div>
           </div>
-        </div>
-      </Router>
+        </Router>
+      </div>
     );
   }
 }
