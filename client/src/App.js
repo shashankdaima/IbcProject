@@ -8,11 +8,22 @@ import HomePage from "./pages/HomePage";
 import MainCheckerPage from './pages/MainCheckerPage'
 import ReviewCheckerPage from './pages/ReviewCheckerPage'
 import StudentPostAnswerPage from './pages/StudentPostAnswerPage'
-import {
-  Navbar,
-  Container
-} from 'reactstrap'; import "./App.css";
+import NavBar from "./components/nav_bar";
 import "./App.css"
+import {
+  Collapse,
+  Navbar,
+  NavbarToggler,
+  NavbarBrand,
+  Nav,
+  NavItem,
+  NavLink,
+  UncontrolledDropdown,
+  DropdownToggle,
+  DropdownMenu,
+  DropdownItem,
+  NavbarText
+} from 'reactstrap';
 class App extends Component {
   state = { storageValue: 0, web3: null, accounts: null, contract: null };
 
@@ -65,17 +76,10 @@ class App extends Component {
     }
     return (
       <div >
+        <NavBar/>
         <Router>
-          <nav >
-            <div className="App-header">
-              <h1>Blockchain Examination Portal</h1>
-              <div id="horizontal">
-                <Link to='/' exact className="Toolbar-Text">Home </Link> 
-                <p>  &nbsp;  </p>
-                <Link to='/result' className ="Toolbar-Text">Result </Link>
-              </div>
-            </div>
-          </nav>
+          
+
           <div className="App">
             <div>
               <Switch>
