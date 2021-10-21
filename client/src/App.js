@@ -80,7 +80,7 @@ class App extends Component {
       return <div>Loading Web3, accounts, and contract...</div>;
     }
     return (
-      <Router>
+      <Router >
         <div >
           <Navbar bg="dark" variant="dark">
             <Container>
