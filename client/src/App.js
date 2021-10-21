@@ -8,8 +8,9 @@ import HomePage from "./pages/HomePage";
 import MainCheckerPage from './pages/MainCheckerPage'
 import ReviewCheckerPage from './pages/ReviewCheckerPage'
 import StudentPostAnswerPage from './pages/StudentPostAnswerPage'
-import NavBar from "./components/nav_bar";
 import "./App.css"
+import '../node_modules/bootstrap/dist/css/bootstrap.min.css';
+
 import {
   Collapse,
   Navbar,
@@ -22,8 +23,9 @@ import {
   DropdownToggle,
   DropdownMenu,
   DropdownItem,
-  NavbarText
-} from 'reactstrap';
+  NavbarText,
+  Container
+} from 'react-bootstrap';
 class App extends Component {
   state = { storageValue: 0, web3: null, accounts: null, contract: null };
 
@@ -67,18 +69,35 @@ class App extends Component {
 
     // Update state with the result.
     this.setState({ storageValue: response });
+
   };
 
+
   render() {
+
 
     if (!this.state.web3) {
       return <div>Loading Web3, accounts, and contract...</div>;
     }
     return (
-      <div >
-        <NavBar/>
-        <Router>
-          
+      <Router>
+        <div >
+          <Navbar bg="dark" variant="dark">
+            <Container>
+              <Navbar.Brand href="/">
+                Blockchain Examination
+              </Navbar.Brand>
+              <Navbar.Collapse className="justify-content-end">
+                <Navbar.Text>
+                  <Link to="/result">Result</Link>
+                </Navbar.Text>
+                <p>&nbsp;</p>
+                <Navbar.Text>
+                  <Link to="/result">Result</Link>
+                </Navbar.Text>
+              </Navbar.Collapse>
+            </Container>
+          </Navbar>
 
           <div className="App">
             <div>
@@ -102,8 +121,8 @@ class App extends Component {
               </Switch>
             </div>
           </div>
-        </Router>
-      </div>
+        </div>
+      </Router>
     );
   }
 }
