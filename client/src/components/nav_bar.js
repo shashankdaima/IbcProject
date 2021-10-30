@@ -13,7 +13,7 @@ import {
   DropdownItem,
   NavbarText
 } from 'reactstrap';
-
+import 'bootstrap/dist/css/bootstrap.min.css';
 const NavBar = (props) => {
 
   return (
