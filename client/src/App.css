@@ -45,6 +45,11 @@
   margin-right: auto;
 }
 
+
+
+.RightsideComponent {
+  padding-right: 150px;
+}
 .Main {
   background-color: black;
 }
@@ -59,8 +64,4 @@
   background: #d9c6fa;
   padding: 1rem 2rem;
   border-image-source: linear-gradient(to left, #743ad5, #d53a9d);
-}
-
-.RightsideComponent {
-  padding-right: 150px;
 }
