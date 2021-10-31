@@ -4,18 +4,19 @@ import getWeb3 from "./../getWeb3";
 import Popup from "../components/popup"
 import 'bootstrap/dist/css/bootstrap.min.css';
 
-function ResultPage(props){  
+function StudentResultPage(props){  
+    {/*props -> name  marks remarks*/}
     const handleEvent = (a) => {
         alert(a);
       };
-    
-    const mainBorderStyle = {
+      const mainBorderStyle = {
         color: "black",
         //backgroundColor: "black",
         padding: "10px",
         //fontFamily: "Arial",
         border: '2.5px solid black'  
     };
+   
     const subBorderStyle={
         border:"2.5px solid black",
         backgroundColor:"skyblue",
@@ -36,18 +37,13 @@ function ResultPage(props){
 
 
     {/* https://www.cluemediator.com/create-simple-popup-in-reactjs*/}
-    return(
-        <div style={mainBorderStyle}>    
-                <h1 style={subBorderStyle}>Result Page</h1>     
-            <div>
-            </div>
-            <div style={{textAlign:"left" , padding:"50px" }} >
-                    <div  style={mainBorderStyle} >
-                    <text >Student Name: Student 1<br /></text>    
+    return( 
+            <div style={mainBorderStyle}>
+                    <text >Student Name: {props.name}<br /></text>    
                     <text>Status: {isChecked &&"Checked"}{!isChecked &&"Not Checked"}<br /></text>  
                     <input
                         type="button"
-                        value="Status Toggle"
+                        value="Status"
                         onClick={toggleCheck}
                         />
                     <input
@@ -58,16 +54,13 @@ function ResultPage(props){
                         {isOpen && isChecked && <Popup
                         content={<>
                             <b>Result <br/></b>
-                            <text>Total Marks Obtained: 7/10</text>
-                            <p>Remark: Incorrect assumption in Q2</p>
+                            <text>Total Marks Obtained: {props.marks}</text>
+                            <p>Remark: {props.remarks}</p>
                             <button>View TA's</button>
                         </>}
                         handleClose={togglePopup}
                         />}
-                    </div>
                 </div>
-
-        </div>
    )
    }
-export default ResultPage;
+export default StudentResultPage;

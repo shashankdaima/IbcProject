@@ -44,3 +44,23 @@
   margin-left: auto;
   margin-right: auto;
 }
+
+.Main {
+  background-color: black;
+}
+
+.MainRightPortion {
+  text-align: center;
+  margin: 0 auto;
+  margin-top: 50px;
+  border: 10px solid;
+  border-image-slice: 1;
+  border-width: 5px;
+  background: #d9c6fa;
+  padding: 1rem 2rem;
+  border-image-source: linear-gradient(to left, #743ad5, #d53a9d);
+}
+
+.RightsideComponent {
+  padding-right: 150px;
+}

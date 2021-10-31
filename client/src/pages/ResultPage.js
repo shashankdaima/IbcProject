@@ -3,12 +3,11 @@ import styles from './../App.css'
 import getWeb3 from "./../getWeb3";
 import Popup from "../components/popup"
 import 'bootstrap/dist/css/bootstrap.min.css';
+import StudentResultPage from "./../components/student_result_page";
 
 function ResultPage(){  
-    const handleEvent = (a) => {
-        alert(a);
-      };
-    
+  
+
     const mainBorderStyle = {
         color: "black",
         //backgroundColor: "black",
@@ -22,125 +21,54 @@ function ResultPage(){
         height:"50%",
         width:"18%"
     };
-    
-    //Creating a popup
-    const [isOpen, setIsOpen] = useState(false);
-    const togglePopup = () => {
-        setIsOpen(!isOpen);
+    const addStudent =() =>{
+        
+    }
+    //inputs for push to list
+   
+        const [idVar,setID]=useState(2);
+        const [name, setName] =useState();
+        const [marks, setMarks]=useState();
+        const [review, setReview]=useState();
+    const [data,setData] =useState([{"id":"1","resultBox":<StudentResultPage name="Student 1" marks="10" remarks="correct" />}])
+    var listData = data.map((d) => <ul key={d.id}>{d.resultBox}</ul>);
+    function handleSubmit(e){
+        e.preventDefault();
+        setData(prev=>prev.concat({id:idVar, resultBox:<StudentResultPage name={name} marks={marks} remarks={review} />}))
+        //listData = data.map((d) => <li key={d.id}>{d.resultBox}</li>);
+        setID(idVar+1);
     }
 
-    const [isChecked, setIsChecked] = useState(false);
-    const toggleCheck =() =>{
-        setIsChecked(!isChecked);
-    }
-
-
+   
     {/* https://www.cluemediator.com/create-simple-popup-in-reactjs*/}
     return(
         <div style={mainBorderStyle}>    
                 <h1 style={subBorderStyle}>Result Page</h1>     
-            <div>
-            </div>
             <div style={{textAlign:"left" , padding:"50px" }} >
                     <div  style={mainBorderStyle} >
-                    <text >Student Name: Student 1<br /></text>    
-                    <text>Status: {isChecked &&"Checked"}{!isChecked &&"Not Checked"}<br /></text>  
-                    <input
-                        type="button"
-                        value="Status Toggle"
-                        onClick={toggleCheck}
-                        />
-                    <input
-                        type="button"
-                        value="Fetch Result"
-                        onClick={togglePopup}
-                        />
-                        {isOpen && isChecked && <Popup
-                        content={<>
-                            <b>Result <br/></b>
-                            <text>Total Marks Obtained: 7/10</text>
-                            <p>Remark: Incorrect assumption in Q2</p>
-                            <button>View TA's</button>
-                        </>}
-                        handleClose={togglePopup}
-                        />}
+                        {listData}
                     </div>
                     
-                    <div  style={mainBorderStyle}>
-                    <text >Student Name:<br /></text>    
-                    <text>Status: {isChecked &&"Checked"}{!isChecked &&"Not Checked"}<br /></text>  
-                    <input
-                        type="button"
-                        value="Fetch Result"
-                        onClick={togglePopup}
-                        />
-                        {isOpen && isChecked && <Popup
-                        content={<>
-                            <b>Result <br/></b>
-                            <text>Total Marks Obtained: 7/10</text>
-                            <p>Remark: Incorrect assumption in Q2</p>
-                            <button>View TA's</button>
-                        </>}
-                        handleClose={togglePopup}
-                        />}
-                    </div>
-
-                    <div  style={mainBorderStyle}>
-                    <text >Student Name:<br /></text>    
-                    <text>Status: {isChecked &&"Checked"}{!isChecked &&"Not Checked"}<br /></text>  
-                    <input
-                        type="button"
-                        value="Fetch Result"
-                        onClick={togglePopup}
-                        />
-                        {isOpen && isChecked &&<Popup
-                        content={<>
-                            <b>Result <br/></b>
-                            <text>Total Marks Obtained: 7/10</text>
-                            <p>Remark: Incorrect assumption in Q2</p>
-                            <button>View TA's</button>
-                        </>}
-                        handleClose={togglePopup}
-                        />}
-                    </div>
-
-                    <div style={mainBorderStyle}>
-                    <text >Student Name:<br /></text>    
-                    <text>Status: {isChecked &&"Checked"}{!isChecked &&"Not Checked"}<br /></text>  
-                    <input
-                        type="button"
-                        value="Fetch Result"
-                        onClick={togglePopup}
-                        />
-                        {isOpen && isChecked && <Popup
-                        content={<>
-                            <b>Result <br/></b>
-                            <text>Total Marks Obtained: 7/10</text>
-                            <p>Remark: Incorrect assumption in Q2</p>
-                            <button>View TA's</button>
-                        </>}
-                        handleClose={togglePopup}
-                        />}  
-                    </div>
-
-                    <div style={mainBorderStyle}>
-                    <text >Student Name:<br /></text>    
-                    <text>Status: {isChecked &&"Checked"}{!isChecked &&"Not Checked"}<br /></text>  
-                    <input
-                        type="button"
-                        value="Fetch Result"
-                        onClick={togglePopup}
-                        />
-                        {isOpen && isChecked && <Popup
-                        content={<>
-                            <b>Result <br/></b>
-                            <text>Total Marks Obtained: 7/10</text>
-                            <p>Remark: Incorrect assumption in Q2</p>
-                            <button>View TA's</button>
-                        </>}
-                        handleClose={togglePopup}
-                        />} 
-                    </div>
+            </div>
+            <div>
+            <form onSubmit={handleSubmit}>
+                <label>
+                Name:
+                <input type="text" value={name} onChange={(e)=>setName(e.target.value)} placeholder="Student Name"/>
+                </label>
+                <label>
+                Marks:
+                <input type="text"  value={marks} onChange={(e)=>setMarks(e.target.value)}/>
+                </label>
+                <label>
+                Remarks:
+                <input type="text"  value={review} onChange={(e)=>setReview(e.target.value)}/>
+                </label>
+                <input type="submit" value="Submit"/>
+            </form>
+            </div>
+            <div>
+                
             </div>
         </div>
     )
