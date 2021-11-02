@@ -11,19 +11,8 @@ import StudentPostAnswerPage from './pages/StudentPostAnswerPage'
 import NavBar from "./components/nav_bar";
 import "./App.css"
 import {
-  Collapse,
-  Navbar,
-  NavbarToggler,
-  NavbarBrand,
-  Nav,
-  NavItem,
-  NavLink,
-  UncontrolledDropdown,
-  DropdownToggle,
-  DropdownMenu,
-  DropdownItem,
-  NavbarText
-} from 'reactstrap';
+  Navbar,Container
+} from 'react-bootstrap';
 class App extends Component {
   state = { storageValue: 0, web3: null, accounts: null, contract: null };
 
@@ -76,10 +65,24 @@ class App extends Component {
     }
     return (
       <div >
-        <NavBar/>
-        <Router>
-          
 
+        <Router>
+          <Navbar bg="dark" variant="dark">
+            <Container>
+              <Navbar.Brand href="/">
+                Blockchain Examination
+              </Navbar.Brand>
+              <Navbar.Collapse className="justify-content-end">
+                <Navbar.Text>
+                  <Link to="/result">Result</Link>
+                </Navbar.Text>
+                <p>&nbsp;</p>
+                <Navbar.Text>
+                  <Link to="/result">Result</Link>
+                </Navbar.Text>
+              </Navbar.Collapse>
+            </Container>
+          </Navbar>
           <div className="App">
             <div>
               <Switch>

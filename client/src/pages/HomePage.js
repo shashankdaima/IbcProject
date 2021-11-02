@@ -2,8 +2,8 @@ import { auto } from "@popperjs/core";
 import React, { Component } from "react";
 import { Row,Col,Container, Card, Form, Button, CardGroup } from "react-bootstrap";
 import stylesApp from "./../App.css";
-import studyImage from "./../components/studyImage.jpg";
-import greyBackground from "./../components/greyBackground.jpg";
+// import studyImage from "./../components/studyImage.jpg";
+// import greyBackground from "./../components/greyBackground.jpg";
 import {NavItem,
     NavLink} from 'reactstrap';
 
@@ -24,14 +24,14 @@ function HomePage() {
 <Row xs={1} md={2} className="g-4">
     <Col >
       <Card style={{height:"35rem", width:"100%" , backgroundColor:"skyblue"}}>
-        <Card.Img variant="top" src={studyImage} style={{height:"35rem",width:"100%"}}/>
+        {/* <Card.Img variant="top" src={studyImage} style={{height:"35rem",width:"100%"}}/> */}
         {/*<Card.Body>
         </Card.Body>*/}
       </Card>
 
 
       <Card style={{height:"35rem", width:"100%"}}>
-        <Card.Img variant="top" src={greyBackground} style={{height:"35rem",width:"100%"}}/>
+        {/* <Card.Img variant="top" src={greyBackground} style={{height:"35rem",width:"100%"}}/> */}
         <Card.ImgOverlay>
         <Card.Body>
           <Card.Title style={{fontSize:"2rem",fontWeight:"bold"}}>Get Your Result Status</Card.Title>
