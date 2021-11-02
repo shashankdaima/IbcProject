@@ -13,13 +13,14 @@ function ResultPage(){
         //backgroundColor: "black",
         padding: "10px",
         //fontFamily: "Arial",
-        border: '2.5px solid black'  
+        border: '4.5px solid black',
+        
     };
     const subBorderStyle={
-        border:"2.5px solid black",
+        border:"1.5px solid black",
         backgroundColor:"skyblue",
         height:"50%",
-        width:"18%"
+        width:"18%",
     };
     const addStudent =() =>{
         
@@ -44,7 +45,7 @@ function ResultPage(){
     return(
         <div style={mainBorderStyle}>    
                 <h1 style={subBorderStyle}>Result Page</h1>     
-            <div style={{textAlign:"left" , padding:"50px" }} >
+            <div style={{textAlign:"left" , padding:"10px" }} >
                     <div  style={mainBorderStyle} >
                         {listData}
                     </div>
@@ -67,9 +68,7 @@ function ResultPage(){
                 <input type="submit" value="Submit"/>
             </form>
             </div>
-            <div>
-                
-            </div>
+           
         </div>
     )
 }

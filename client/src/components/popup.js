@@ -43,14 +43,14 @@ const Popup = props => {
     }
   return (
     
-    
+   
     <div style={popupBox}>
       <div style={box}>
         <span style={closeIcon} onClick={props.handleClose}>x</span>
         {props.content}
       </div>
     </div>
-    
+   
    /** 
     <div >
     <div >
