@@ -9,6 +9,7 @@ import MainCheckerPage from './pages/MainCheckerPage'
 import ReviewCheckerPage from './pages/ReviewCheckerPage'
 import StudentPostAnswerPage from './pages/StudentPostAnswerPage'
 import NavBar from "./components/nav_bar";
+import ProfessorHome  from "./pages/ProfessorHome";
 import "./App.css"
 import {
   Navbar,Container
@@ -88,7 +89,8 @@ class App extends Component {
             <div>
               <Switch>
                 <Route exact path="/" >
-                  <HomePage />
+                  {/* <HomePage /> */}
+                  <ProfessorHome/>
                 </Route>
                 <Route path="/result" >
                   <ResultPage />
