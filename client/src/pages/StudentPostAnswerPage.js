@@ -1,101 +1,61 @@
-import React, { useState, Component } from "react";
-import {
-  Navbar,
-  Container
-} from 'reactstrap';
+import React, { Component } from "react";
+import { Container, Card, Form, Button } from "react-bootstrap"
+// import axios from 'axios'
+import MyPdfViewer from "./../components/pdf_view.js";
 
-//import React,{useState} from 'react'
-import { Viewer } from '@react-pdf-viewer/core'; 
-import { defaultLayoutPlugin } from '@react-pdf-viewer/default-layout';
+class StudentPostAnswerPage extends Component {
+  state = {
+    //No file
+    selectedFile: null
+  };
 
-import '@react-pdf-viewer/core/lib/styles/index.css';
-import '@react-pdf-viewer/default-layout/lib/styles/index.css';
-import 'bootstrap/dist/css/bootstrap.min.css';
+  render() {
 
-import { Worker } from '@react-pdf-viewer/core';
+    function answerPostOnClicked(params) {
 
-function StudentPostAnswerPage(){   
-   
-      // Create new plugin instance
-  const defaultLayoutPluginInstance = defaultLayoutPlugin();
-  
-  // for onchange event
-  const [pdfFile, setPdfFile]=useState(null);
-  const [pdfFileError, setPdfFileError]=useState('');
-
-  // for submit event
-  const [viewPdf, setViewPdf]=useState(null);
-
-  // onchange event
-  const fileType=['application/pdf'];
-  const handlePdfFileChange=(e)=>{
-    let selectedFile=e.target.files[0];
-    if(selectedFile){
-      if(selectedFile&&fileType.includes(selectedFile.type)){
-        let reader = new FileReader();
-            reader.readAsDataURL(selectedFile);
-            reader.onloadend = (e) =>{
-              setPdfFile(e.target.result);
-              setPdfFileError('');
-            }
-      }
-      else{
-        setPdfFile(null);
-        setPdfFileError('Please select valid pdf file');
-      }
     }
-    else{
-      console.log('select your file');
-    }
-  }
+    return (
+      <Container >
+        <Card style={{ padding: "10px 10px 10px 10px", margin: "10px 10px 10px 10px" }} >
+          {/* top right bottom left */}
+          <Card.Body>
+            <Card.Title>Submit Answer Sheet</Card.Title>
+            <Card.Subtitle className="mb-2 text-muted">Please Write Every Details</Card.Subtitle>
+            <Form style={{ textAlign: "start" }}>
+              <Form.Group className="mb-3" controlId="formBasicEmail">
+                <Form.Label>Email address</Form.Label>
+                <Form.Control type="email" placeholder="Enter email" />
+              </Form.Group>
+              <Form.Group className="mb-3" >
+                <Form.Label >Answer Sheet</Form.Label>
+                <Button variant="outline-primary" className="m-3" onClick={answerPostOnClicked} >
+                  Attach
+                </Button>
+                <br />
+                <div style={{ textAlign: "center" }}>
 
-  // form submit
-  const handlePdfFileSubmit=(e)=>{
-    e.preventDefault();
-    if(pdfFile!==null){
-      setViewPdf(pdfFile);
-    }
-    else{
-      setViewPdf(null);
-    }
-  }
-      return (
-        <div  >
-              <div>
-                <h2>Upload Solutins For Evalutaion</h2>
-              </div>
-              <div>
-                <text>Please Upload your solutions in PDF format for evalution<br/></text>
-              </div>              
-              <div >
-                  <br></br>
-                  
-                    <form  onSubmit={handlePdfFileSubmit}>
-                      <input type="file" 
-                        required onChange={handlePdfFileChange}
-                      />
-                      {pdfFileError&&<div>{pdfFileError}</div>}
-                      <br></br>
-                      <button type="submit" >
-                        UPLOAD
-                      </button>
-                    </form>
-                    <br></br>
-                    <h4>View PDF</h4>
-                    <div >
-                      {/* show pdf conditionally (if we have one)  */}
-                      {viewPdf&&<><Worker workerUrl="https://unpkg.com/pdfjs-dist@2.6.347/build/pdf.worker.min.js">
-                        <Viewer fileUrl={viewPdf}
-                          plugins={[defaultLayoutPluginInstance]} />
-                    </Worker></>}
-
-                    {/* if we dont have pdf or viewPdf state is null */}
-                    {!viewPdf&&<>No pdf file selected</>}
-                    </div>
+                  <MyPdfViewer />
                 </div>
-        </div>
-      )
-  }
-  {/** https://github.com/HamzaAnwar1998/Upload-View-Pdf-In-Reactjs/blob/main/src/index.css */}
-export default StudentPostAnswerPage;
 
+                <br />
+                <Form.Text className="text-muted">
+                  Please don't share this sheet to anyone to avoid plag.
+                </Form.Text>
+              </Form.Group>
+              <Form.Group className="mb-3" controlId="formBasicCheckbox">
+                <Form.Check type="checkbox" label="I hereby confirm my submission" />
+              </Form.Group>
+              <div style={{ textAlign: "center" }}>
+
+                <Button variant="primary" type="submit" >
+                  Submit
+                </Button>
+              </div>
+            </Form>
+          </Card.Body>
+        </Card>
+      </Container>
+    );
+  }
+}
+export default StudentPostAnswerPage;

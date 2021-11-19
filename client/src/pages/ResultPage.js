@@ -8,19 +8,6 @@ import StudentResultPage from "./../components/student_result_page";
 function ResultPage() {
 
 
-    const mainBorderStyle = {
-        color: "black",
-        //backgroundColor: "black",
-        padding: "10px",
-        //fontFamily: "Arial",
-        border: '2.5px solid black'
-    };
-    const subBorderStyle = {
-        border: "2.5px solid black",
-        backgroundColor: "skyblue",
-        height: "50%",
-        width: "18%"
-    };
     const addStudent = () => {
 
     }
@@ -42,10 +29,9 @@ function ResultPage() {
 
     {/* https://www.cluemediator.com/create-simple-popup-in-reactjs*/ }
     return (
-        <div className="card">
-            <h1 style={subBorderStyle}>Result Page</h1>
+        <div className="card ">
             <div style={{ textAlign: "left", padding: "50px" }} >
-                <div style={mainBorderStyle} >
+                <div  >
                     {listData}
                 </div>
 
