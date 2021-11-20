@@ -85,10 +85,10 @@ class StudentPostAnswerPage extends Component {
                   Attach
                 </Button>
                 <br />
-                <div style={{ textAlign: "center" }}>
+                {/* <div style={{ textAlign: "center" }}>
                   <MyPdfViewer />
                 </div>
-
+ */}
 
                 <Form.Text className="text-muted">
                   Please don't share this sheet to anyone to avoid plag.
