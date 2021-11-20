@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { Container, Card, Form, Button } from "react-bootstrap"
 import axios from 'axios'
+import MyPdfViewer from "./../components/pdf_view.js";
 
 class StudentPostAnswerPage extends Component {
   state = {
@@ -60,6 +61,7 @@ class StudentPostAnswerPage extends Component {
     }
   };
 
+
   render() {
 
     function answerPostOnClicked(params) {
@@ -83,6 +85,11 @@ class StudentPostAnswerPage extends Component {
                   Attach
                 </Button>
                 <br />
+                <div style={{ textAlign: "center" }}>
+                  <MyPdfViewer />
+                </div>
+
+
                 <Form.Text className="text-muted">
                   Please don't share this sheet to anyone to avoid plag.
                 </Form.Text>

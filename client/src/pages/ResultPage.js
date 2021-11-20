@@ -1,7 +1,63 @@
-import React, { Component } from "react";
-function ResultPage(){
-    return(
-        <h1>This will show the result of students</h1>
+import React, { useState, Component } from "react";
+import styles from './../App.css'
+import getWeb3 from "./../getWeb3";
+import Popup from "../components/popup"
+import 'bootstrap/dist/css/bootstrap.min.css';
+import StudentResultPage from "./../components/student_result_page";
+
+function ResultPage() {
+
+
+    const addStudent = () => {
+
+    }
+    //inputs for push to list
+
+    const [idVar, setID] = useState(2);
+    const [name, setName] = useState();
+    const [marks, setMarks] = useState();
+    const [review, setReview] = useState();
+    const [data, setData] = useState([{ "id": "1", "resultBox": <StudentResultPage name="Student 1" marks="10" remarks="correct" /> }])
+    var listData = data.map((d) => <ul key={d.id}>{d.resultBox}</ul>);
+    function handleSubmit(e) {
+        e.preventDefault();
+        setData(prev => prev.concat({ id: idVar, resultBox: <StudentResultPage name={name} marks={marks} remarks={review} /> }))
+        //listData = data.map((d) => <li key={d.id}>{d.resultBox}</li>);
+        setID(idVar + 1);
+    }
+
+
+    {/* https://www.cluemediator.com/create-simple-popup-in-reactjs*/ }
+    return (
+        <div className="card ">
+            <div style={{ textAlign: "left", padding: "50px" }} >
+                <div  >
+                    {listData}
+                </div>
+
+            </div>
+            <div>
+                <form onSubmit={handleSubmit}>
+                    <label>
+                        Name:
+                        <input type="text" value={name} onChange={(e) => setName(e.target.value)} placeholder="Student Name" />
+                    </label>
+                    <label>
+                        Marks:
+                        <input type="text" value={marks} onChange={(e) => setMarks(e.target.value)} />
+                    </label>
+                    <label>
+                        Remarks:
+                        <input type="text" value={review} onChange={(e) => setReview(e.target.value)} />
+                    </label>
+                    <input type="submit" value="Submit" />
+                </form>
+            </div>
+            <div>
+
+            </div>
+        </div>
     )
 }
+
 export default ResultPage;
