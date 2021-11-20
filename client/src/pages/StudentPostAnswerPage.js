@@ -1,8 +1,4 @@
 import React, { useState, Component } from "react";
-import {
-  Navbar,
-  Container
-} from 'reactstrap';
 
 //import React,{useState} from 'react'
 import { Viewer } from '@react-pdf-viewer/core'; 

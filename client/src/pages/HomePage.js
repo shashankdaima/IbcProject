@@ -1,6 +1,6 @@
 import { auto } from "@popperjs/core";
 import React, { Component } from "react";
-import { Row,Col,Container, Card, Form, Button, CardGroup } from "react-bootstrap";
+import { Row,Col,Container, Card, Form, Button, CardGroup, NavLink } from "react-bootstrap";
 import stylesApp from "./../App.css";
 import studyImage from "./../components/studyImage.jpg";
 
@@ -11,8 +11,7 @@ import mainpage from './../components/mainpage.jpeg';
 import blueBackground from "./../components/blueBackground.jpg";
 
 import greyBackground from "./../components/greyBackground.jpg";
-import {NavItem,
-    NavLink} from 'reactstrap';
+
 
 function HomePage() {
     const subBorderStyle={
