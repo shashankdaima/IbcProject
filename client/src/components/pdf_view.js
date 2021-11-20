@@ -1,5 +1,6 @@
 import React, { useRef, useState } from "react";
 import { usePdf } from "@mikecousins/react-pdf";
+import {  Row, Col } from "react-bootstrap";
 
 export default function MyPdfViewer() {
     const [page, setPage] = useState(1);
@@ -17,21 +18,25 @@ export default function MyPdfViewer() {
             <canvas ref={canvasRef} />
             {Boolean(pdfDocument && pdfDocument.numPages) && (
                 <nav>
-                    <ul className="pager" >
-                        <li className="previous">
-                            <button disabled={page === 1} onClick={() => setPage(page - 1)}>
-                                Previous
-                            </button>
-                        </li>
-                        <li className="next">
-                            <button
-                                disabled={page === pdfDocument.numPages}
-                                onClick={() => setPage(page + 1)}
-                            >
-                                Next
-                            </button>
-                        </li>
-                    </ul>
+                    <Row  className="pager mb-3">
+                        
+                            <Col className="previous">
+                                <button disabled={page === 1}
+                                    className="btn btn-secondary"
+                                    onClick={() => setPage(page - 1)}>
+                                    Previous
+                                </button>
+                            </Col>
+                            <Col className="next">
+                                <button
+                                    className="btn btn-secondary"
+                                    disabled={page === pdfDocument.numPages}
+                                    onClick={() => setPage(page + 1)}
+                                >
+                                    Next
+                                </button>
+                            </Col>
+                    </Row>
                 </nav>
             )}
         </div>

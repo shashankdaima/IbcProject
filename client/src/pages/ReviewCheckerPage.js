@@ -1,27 +1,25 @@
-import { Container, Card, Form, Button, CardGroup } from "react-bootstrap";
+import { Container, Card, Form, Button, CardGroup, Row, Col } from "react-bootstrap";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import React, { Component } from "react";
-import MyPdfViewer  from "./../components/pdf_view.js";
+import MyPdfViewer from "./../components/pdf_view.js";
 
 function ReviewCheckerPage() {
     return (
-        <Container >
+        <Container fluid="md mt-2"  >
             {/* <div >
                 <h1>Review Checker's Page</h1>
             </div> */}
 
-            <div>
 
-                <CardGroup>
+            <Card>
+                <Row>
+                    <Col>
 
-
-                    <Card>
                         <MyPdfViewer />
-                    </Card>
+                    </Col>
+                    {/* top right bottom left */}
+                    <Col>
 
-
-                    <Card >
-                        {/* top right bottom left */}
                         <Card.Body>
                             <Card.Title>To be filled by CheckerTA </Card.Title>
                             <Card.Subtitle className="mb-2 text-muted">Please Write Every Details</Card.Subtitle>
@@ -71,13 +69,12 @@ function ReviewCheckerPage() {
                                 </div>
                             </Form>
                         </Card.Body>
+                    </Col>
+                </Row>
+
+            </Card>
 
 
-                    </Card>
-                </CardGroup>
-
-
-            </div>
 
         </Container>
     )
