@@ -1,15 +1,6 @@
 import React, { Component } from "react";
 import { Row, Col, Container, Card, Form, Button, CardGroup, NavLink } from "react-bootstrap";
 import stylesApp from "./../App.css";
-import studyImage from "./../components/studyImage.jpg";
-
-import ashmeet from './../components/ashmeet.jpeg';
-import mohsin from './../components/mohsin.jpeg';
-import shashank from './../components/shashank.jpeg';
-import mainpage from './../components/mainpage.jpeg';
-import blueBackground from "./../components/blueBackground.jpg";
-
-import greyBackground from "./../components/greyBackground.jpg";
 
 
 function HomePage() {
@@ -24,7 +15,7 @@ function HomePage() {
 
 
   return (
-    <div style={{ backgroundImage: `url(${blueBackground})` }}>
+    <div style={{ backgroundImage: '/lib/blueBackground.jpg' }}>
       <div style={{ backgroundColor: "#90C5FF", }}>
         <h1 style={subBorderStyle}>SAMBLOCK</h1>
       </div>
@@ -34,14 +25,14 @@ function HomePage() {
         <Row xs={1} md={2} >
           <Col >
             <Card style={{ height: "35rem", width: "100%", backgroundColor: "skyblue" }}>
-              <Card.Img variant="top" src={studyImage} style={{ height: "35rem", width: "100%" }} />
+              <Card.Img variant="top" src='/lib/studyImage.jpg' style={{ height: "35rem", width: "100%" }} />
               {/*<Card.Body>
         </Card.Body>*/}
             </Card>
 
 
             <Card style={{ height: "35rem", width: "100%" }}>
-              <Card.Img variant="top" src={greyBackground} style={{ height: "35rem", width: "100%" }} />
+              <Card.Img variant="top" src='/lib/greyBackground.jpg' style={{ height: "35rem", width: "100%" }} />
               <Card.ImgOverlay>
                 <Card.Body>
                   <Card.Title style={{ fontSize: "2rem", fontWeight: "bold" }}>Get Your Result Status</Card.Title>
@@ -58,8 +49,8 @@ function HomePage() {
           </Col>
           <Col>
             <Card style={{ height: "35rem", width: "100%", backgroundColor: 'lightcoral' }}>
-              <Card.Img variant="top" src={mainpage} style={{ height: "15rem", width: "100%" }} />
-              <Card.Img variant="bottom" src={blueBackground} style={{ height: "20rem", width: "100%" }} />
+              <Card.Img variant="top" src='/lib/mainpage.jpeg'style={{ height: "15rem", width: "100%" }} />
+              <Card.Img variant="bottom" src='/lib/blueBackground.jpg' style={{ height: "20rem", width: "100%" }} />
               <Card.Body >
                 <Card.ImgOverlay style={{ marginTop: "15rem" }}>
                   <Card.Title style={{ color: "white", fontSize: "2rem", fontWeight: "bold" }}>About</Card.Title>
@@ -76,7 +67,7 @@ function HomePage() {
               <CardGroup>
                 <br />
                 <Card style={{ height: "5rem", width: "50%", backgroundColor: "skyblue" }}>
-                  <Card.Img variant="top" src={ashmeet} style={{ height: "15rem", width: "100%" }} />
+                  <Card.Img variant="top" src="/lib/ashmeet.jpeg" style={{ height: "15rem", width: "100%" }} />
                   <Card.Body>
                     <h5 style={{ textAlign: 'center' }}> Ashmeet Singh </h5>
                     <p style={{ textAlign: 'center' }}> 2019412 </p>
@@ -85,7 +76,7 @@ function HomePage() {
 
 
                 <Card style={{ height: "5rem", width: "50%", backgroundColor: "skyblue", }}>
-                  <Card.Img variant="top" src={mohsin} style={{ height: "15rem", width: "100%" }} />
+                  <Card.Img variant="top" src='/lib/mohsin.jpeg' style={{ height: "15rem", width: "100%" }} />
                   <Card.Body>
                     <h5 style={{ textAlign: 'center' }}> Mohammad Mohsin Hussain </h5>
                     <p style={{ textAlign: 'center' }}> 2019255 </p>
@@ -93,10 +84,10 @@ function HomePage() {
                 </Card>
 
                 <Card style={{ height: "5rem", width: "50%", backgroundColor: "black" }}>
-                  <Card.Img variant="top" src={shashank} style={{ height: "15rem", width: "100%" }} />
+                  <Card.Img variant="top" src="/lib/shashank.jpeg" style={{ height: "15rem", width: "100%" }} />
                   <Card.Body>
                     <h5 style={{ textAlign: 'center' }}> Shashank Daima </h5>
-                    <p style={{ textAlign: 'center' }}> 2019 </p>
+                    <p style={{ textAlign: 'center' }}> 2019106 </p>
                   </Card.Body>
                 </Card>
               </CardGroup>
