@@ -77,13 +77,11 @@ class App extends Component {
                 Blockchain Examination
               </Navbar.Brand>
               <Navbar.Collapse className="justify-content-end">
-                <Navbar.Text>
+                {/* <Navbar.Text>
                   <Link to="/result">Result</Link>
                 </Navbar.Text>
                 <p>&nbsp; </p>
-                <Navbar.Text>
-                  <Link to="/result">Result</Link>
-                </Navbar.Text>
+                 */}
               </Navbar.Collapse>
             </Container>
           </Navbar>
@@ -91,8 +89,8 @@ class App extends Component {
             <div>
               <Switch>
                 <Route exact path="/" >
-                  {/* <HomePage /> */}
-                  <ProfessorHome/>
+                  <HomePage />
+                  {/* <ProfessorHome/> */}
                 </Route>
                 <Route path="/result" >
                   <ResultPage />
