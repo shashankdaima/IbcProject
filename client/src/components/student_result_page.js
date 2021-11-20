@@ -14,7 +14,9 @@ function StudentResultPage(props){
         //backgroundColor: "black",
         padding: "10px",
         //fontFamily: "Arial",
-        border: '2.5px solid black'  
+        border: '1.5px solid black',
+
+        
     };
    
     const subBorderStyle={
