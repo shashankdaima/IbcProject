@@ -6,10 +6,7 @@ import stylesApp from "./../App.css";
 import TaList from "../components/ta_list";
 // import studyImage from "./../components/studyImage.jpg";
 // import greyBackground from "./../components/greyBackground.jpg";
-import {
-    NavItem,
-    NavLink
-} from 'reactstrap';
+
 
 export default function ProfessorHome() {
     return (
