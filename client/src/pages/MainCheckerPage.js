@@ -1,78 +1,105 @@
-import React, { Component } from "react";
-import { Container, Card, Form, Button, CardGroup } from "react-bootstrap";
-
+import React, { Component, useRef, useState, useEffect } from "react";
+import { Container, Card, Form, Button, Row, Col, ListGroup, ListGroupItem } from "react-bootstrap";
 import 'bootstrap/dist/css/bootstrap.min.css';
-import Ppp from "./PdfView"
 import "./../App.css"
+import { usePdf } from "@mikecousins/react-pdf";
+import MyPdfViewer from "./../components/pdf_view.js";
 
-function MainCheckerPage() {
-  return (
-      <div className="Main">
-        <div className="MainRightPortion">
-            <h1>GroupTA Page</h1>
-        </div>
+function MainCheckerPage()  {
+
+  const [checkerID, setCheckerID] =useState();
+  const [studentID, setStudentID] =useState();     
     
-        <div className="RightsideComponent">
-        <br />
-        <CardGroup>
+  const [q1, setq1] =useState();
+  const [r1, setr1] =useState();
+  
+  const [q2, setq2] =useState();
+  const [r2, setr2] =useState();
+  
+  const [q3, setq3] =useState();
+  const [r3, setr3] =useState();
 
-        <div className="Pdf">
-        <Card style={{ width: '44rem' }}>
-            <Ppp />
+  const [formData, setFormData] = useState([{ "TA_ID": "","sID":"","q1f":"","r1f":"","q2f":"","r2f":"","q3f":"","r3f":""}])
+  function formSubmit(e){
+      e.preventDefault();
+      console.log(r3) 
+    
+      setFormData(prev => prev.concat({ TA_ID: checkerID ,sID: studentID , q1f:q1 , r1f:r1 , q2f:q2 ,r2f:r2 , q3f:q3 , r3f:r3}))  
+      console.log(formData)
+    }
+
+    //useEffect
+    useEffect(()=>{
+      const mem=JSON.parse(localStorage.getItem('form_data'))
+      console.log(mem)
+      if(mem !==null){
+        setFormData(mem)
+        console.log("run")
+      }
+    },[])    
+    useEffect(()=>{
+      localStorage.setItem('form_data',JSON.stringify(formData))
+      console.log(formData)
+  },[formData])
+ 
+    return (
+      <Container fluid="md mt-2" >
+        <Card>
+          <Row>
+            <Col>
+              <MyPdfViewer />
+            </Col>
+
+            <Col >
+              <Card.Body >
+                <Card.Title>To be filled by GroupTA </Card.Title>
+                <Card.Subtitle className="mb-2 text-muted">Please Write Every Details</Card.Subtitle>
+                <Form onSubmit={formSubmit} style={{ textAlign: "start" }} >
+                  <Form.Group className="mb-3" controlId="formBasicEmail">
+                    <Form.Label>GroupTA ID</Form.Label>
+                    <Form.Control type="ID" value={checkerID} onChange={(e) => setCheckerID(e.target.value)} placeholder="Enter your ID" />
+                    <br />
+                    <Form.Control type="studentID" value={studentID} onChange={(e) => setStudentID(e.target.value)} placeholder="Student PublicID" />
+                  </Form.Group>
+
+                  <Form.Group className="mb-3" >
+                    <Form.Label>Q1 Details</Form.Label>
+                    <Form.Control type="mark1" value={q1} onChange={(e) => setq1(e.target.value)} placeholder="Enter Marks for this Question" />
+                    <Form.Control type="Remark1" value={r1} onChange={(e) => setr1(e.target.value)} placeholder="Provide Your Remark for this Question" />
+                  </Form.Group>
+
+                  <Form.Group className="mb-3" >
+                    <Form.Label>Q2 Details</Form.Label>
+                    <Form.Control type="mark2" value={q2} onChange={(e) => setq2(e.target.value)} placeholder="Enter Marks for this Question" />
+                    <Form.Control type="Remark2" value={r2} onChange={(e) => setr2(e.target.value)} placeholder="Provide Your Remark for this Question" />
+                  </Form.Group>
+
+                  <Form.Group className="mb-3" >
+                    <Form.Label>Q3 Details</Form.Label>
+                    <Form.Control type="mark3" value={q3} onChange={(e) => setq3(e.target.value)} placeholder="Enter Marks for this Question" />
+                    <Form.Control type="Remark3" value={r3} onChange={(e) => setr3(e.target.value)} placeholder="Provide Your Remark for this Question" />
+                  </Form.Group>
+
+                  <Form.Group className="mb-3" >
+                    <br />
+                  </Form.Group>
+                  <Form.Group className="mb-3" controlId="formBasicCheckbox">
+                    <Form.Check type="checkbox" label="I hereby confirm my submission" />
+                  </Form.Group>
+
+                  <div style={{ textAlign: "center" }}>
+                    <Button variant="primary" type="submit" >
+                      Submit
+                    </Button>
+                  </div>
+                </Form>
+              </Card.Body>
+            </Col>
+          </Row>
         </Card>
-        </div>
-
-          <Card style={{ width: '36rem' }}>
-          <Card.Body>
-          <Card.Title>To be filled by GroupTA </Card.Title>
-          <Card.Subtitle className="mb-2 text-muted">Please Write Every Details</Card.Subtitle>
-          <Form style={{ textAlign: "start" }}>
-              <Form.Group className="mb-3" controlId="formBasicEmail">
-              <Form.Label>GroupTA ID</Form.Label>
-              <Form.Control type="ID" placeholder="Enter your ID" />
-              <br />
-              <Form.Control type="studentID" placeholder="Student PublicID" />
-              </Form.Group>
-
-              <Form.Group className="mb-3" >
-              <Form.Label>Q1 Details</Form.Label>
-              <Form.Control type="mark1" placeholder="Enter Marks for this Question" />
-              <Form.Control type="Remark1" placeholder="Provide Your Remark for this Question" />
-              </Form.Group>
-          
-              <Form.Group className="mb-3" >
-              <Form.Label>Q2 Details</Form.Label>
-              <Form.Control type="mark2" placeholder="Enter Marks for this Question" />
-              <Form.Control type="Remark2" placeholder="Provide Your Remark for this Question" />
-              </Form.Group>
-          
-              <Form.Group className="mb-3" >
-              <Form.Label>Q3 Details</Form.Label>
-              <Form.Control type="mark3" placeholder="Enter Marks for this Question" />
-              <Form.Control type="Remark3" placeholder="Provide Your Remark for this Question" />
-              </Form.Group>
-
-          <Form.Group className="mb-3" >
-            <br />
-          </Form.Group>
-          <Form.Group className="mb-3" controlId="formBasicCheckbox">
-            <Form.Check type="checkbox" label="I hereby confirm my submission" />
-          </Form.Group>
-          
-          <div style={{ textAlign: "center" }}>
-            <Button variant="primary" type="submit" >
-              Submit
-            </Button>
-          </div>
-        </Form>
-      </Card.Body>
-
-    </Card>
-
-
-    </CardGroup>
-    </div>      
-    </div>
-  )
+      </Container>
+    )
+  
 }
+
 export default MainCheckerPage;

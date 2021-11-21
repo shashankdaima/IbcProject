@@ -1,101 +1,146 @@
-import React, { useState, Component } from "react";
-import {
-  Navbar,
-  Container
-} from 'reactstrap';
+import React, { Component,useState, useEffect } from "react";
+import { Container, Card, Form, Button } from "react-bootstrap"
+import axios from 'axios'
+import MyPdfViewer from "./../components/pdf_view.js";
 
-//import React,{useState} from 'react'
-import { Viewer } from '@react-pdf-viewer/core'; 
-import { defaultLayoutPlugin } from '@react-pdf-viewer/default-layout';
+function StudentPostAnswerPage  () {
+  const state = {
+    //No file
+    selectedFile: null
+  };
+  const onFileChange = (event) => {
+    this.setState({ selectedFile: event.target.files[0] });
+  };
+  const onFileUpload = () => {
 
-import '@react-pdf-viewer/core/lib/styles/index.css';
-import '@react-pdf-viewer/default-layout/lib/styles/index.css';
-import 'bootstrap/dist/css/bootstrap.min.css';
+    // Create an object of formData
+    const formData = new FormData();
 
-import { Worker } from '@react-pdf-viewer/core';
+    // Update the formData object
+    formData.append(
+      "myFile",
+      this.state.selectedFile,
+      this.state.selectedFile.name
+    );
 
-function StudentPostAnswerPage(){   
-   
-      // Create new plugin instance
-  const defaultLayoutPluginInstance = defaultLayoutPlugin();
-  
-  // for onchange event
-  const [pdfFile, setPdfFile]=useState(null);
-  const [pdfFileError, setPdfFileError]=useState('');
+    // Details of the uploaded file
+    console.log(this.state.selectedFile);
 
-  // for submit event
-  const [viewPdf, setViewPdf]=useState(null);
+    // Request made to the backend api
+    // Send formData object
+    axios.post("api/uploadfile", formData);
+  };
+  const fileData = () => {
 
-  // onchange event
-  const fileType=['application/pdf'];
-  const handlePdfFileChange=(e)=>{
-    let selectedFile=e.target.files[0];
-    if(selectedFile){
-      if(selectedFile&&fileType.includes(selectedFile.type)){
-        let reader = new FileReader();
-            reader.readAsDataURL(selectedFile);
-            reader.onloadend = (e) =>{
-              setPdfFile(e.target.result);
-              setPdfFileError('');
-            }
-      }
-      else{
-        setPdfFile(null);
-        setPdfFileError('Please select valid pdf file');
-      }
-    }
-    else{
-      console.log('select your file');
-    }
-  }
+    if (this.state.selectedFile) {
 
-  // form submit
-  const handlePdfFileSubmit=(e)=>{
-    e.preventDefault();
-    if(pdfFile!==null){
-      setViewPdf(pdfFile);
-    }
-    else{
-      setViewPdf(null);
-    }
-  }
       return (
-        <div  >
-              <div>
-                <h2>Upload Solutins For Evalutaion</h2>
-              </div>
-              <div>
-                <text>Please Upload your solutions in PDF format for evalution<br/></text>
-              </div>              
-              <div >
-                  <br></br>
-                  
-                    <form  onSubmit={handlePdfFileSubmit}>
-                      <input type="file" 
-                        required onChange={handlePdfFileChange}
-                      />
-                      {pdfFileError&&<div>{pdfFileError}</div>}
-                      <br></br>
-                      <button type="submit" >
-                        UPLOAD
-                      </button>
-                    </form>
-                    <br></br>
-                    <h4>View PDF</h4>
-                    <div >
-                      {/* show pdf conditionally (if we have one)  */}
-                      {viewPdf&&<><Worker workerUrl="https://unpkg.com/pdfjs-dist@2.6.347/build/pdf.worker.min.js">
-                        <Viewer fileUrl={viewPdf}
-                          plugins={[defaultLayoutPluginInstance]} />
-                    </Worker></>}
+        <div>
+          <h2>File Details:</h2>
 
-                    {/* if we dont have pdf or viewPdf state is null */}
-                    {!viewPdf&&<>No pdf file selected</>}
-                    </div>
-                </div>
+          <p>File Name: {this.state.selectedFile.name}</p>
+
+
+          <p>File Type: {this.state.selectedFile.type}</p>
+
+
+          <p>
+            Last Modified:{" "}
+            {this.state.selectedFile.lastModifiedDate.toDateString()}
+          </p>
+
         </div>
-      )
-  }
-  {/** https://github.com/HamzaAnwar1998/Upload-View-Pdf-In-Reactjs/blob/main/src/index.css */}
-export default StudentPostAnswerPage;
+      );
+    } else {
+      return (
+        <div>
+          <br />
+          <h4>Choose before Pressing the Upload button</h4>
+        </div>
+      );
+    }
+  };
 
+  //USE STATES
+  
+
+  
+
+
+
+    const [email, setEmail] = useState();
+    const [emailArr, setEmailArr] = useState([]);
+    const [attachedFile, setAttachFile] = useState();
+    
+
+    function answerPostOnClicked(params) {
+       
+    }
+    function formSubmit(e){
+      e.preventDefault();
+      setEmail({email})
+      setEmailArr(prev=>prev.concat({email})) 
+    }
+    
+    useEffect(()=>{
+      const mem=JSON.parse(localStorage.getItem('emailArr_stored'))
+      console.log(mem)
+      setEmailArr(mem)
+    },[])
+
+    useEffect(()=>{
+        localStorage.setItem('emailArr_stored',JSON.stringify(emailArr))
+        console.log(emailArr)
+    },[emailArr])
+
+
+    return (
+      <Container >
+        <Card style={{ padding: "10px 10px 10px 10px", margin: "10px 10px 10px 10px" }} >
+          {/* top right bottom left */}
+          <Card.Body>
+            <Card.Title>Submit Answer Sheet</Card.Title>
+            <Card.Subtitle className="mb-2 text-muted">Please Write Every Details</Card.Subtitle>
+
+            <Form style={{ textAlign: "start" }} onSubmit={formSubmit}>
+
+              <Form.Group className="mb-3" controlId="formBasicEmail">
+                <Form.Label>Email address</Form.Label>
+                {/* <input type="text" value={email} onChange={(e) => setName(e.target.value)} placeholder="Student Name" /> */}
+                <Form.Control type="email" value={email}  onChange={(e) => setEmail(e.target.value)} placeholder="Enter email"/>
+                
+              </Form.Group>
+
+              <Form.Group className="mb-3" >
+                <Form.Label >Answer Sheet</Form.Label>
+                {/* <Button variant="outline-primary" className="m-3" onClick={answerPostOnClicked} >
+                  Attach
+                </Button> */}
+                <Form.Control type="file" size="sm" />
+                <br />
+                {/* <div style={{ textAlign: "center" }}>
+                  <MyPdfViewer />
+                </div>
+                */}
+
+                <Form.Text className="text-muted">
+                  Please don't share this sheet to anyone to avoid plag.
+                </Form.Text>
+              </Form.Group>
+              <Form.Group className="mb-3" controlId="formBasicCheckbox">
+                <Form.Check type="checkbox" label="I hereby confirm my submission" />
+              </Form.Group>
+              <div style={{ textAlign: "center" }}>
+
+                <Button variant="primary" type="submit" >
+                  Submit
+                </Button>
+              </div>
+            </Form>
+          </Card.Body>
+        </Card>
+      </Container>
+    );
+  
+}
+export default StudentPostAnswerPage;
