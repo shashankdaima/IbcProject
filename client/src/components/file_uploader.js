@@ -19,9 +19,9 @@ export default class FileUploader extends Component {
             this.state.selectedFile,
             this.state.selectedFile.name
         );
-        console.log(this.state.selectedFile);
-
-        axios.post("api/uploadfile", formData);
+        console.log(this.state.selectedFile.type);
+        
+        // axios.post("api/uploadfile", formData);
     };
 
     fileData = () => {

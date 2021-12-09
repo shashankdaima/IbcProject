@@ -9,12 +9,17 @@ import TaList from "../components/ta_list";
 
 
 export default function ProfessorHome() {
+    function onClick(name){
+        console.log(name)
+    }
+
+    
+
     return (
         <div className="container">
             <div >
                 <br />
                 <CardGroup >
-
 
                     <Card className="md-3 mt-5" >
                         <FileUploader />
@@ -26,7 +31,7 @@ export default function ProfessorHome() {
 
                 </CardGroup>
                 <Card className="my-auto" >
-                    <Button variant="primary" > Create Room </Button>
+                    <Button variant="primary" onClick={() => onClick('James') } > Create Room </Button>
                 </Card>
             </div>
         </div>

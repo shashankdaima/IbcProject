@@ -42,10 +42,7 @@ function TodoForm({ addTodo }) {
 function TaList() {
 
     const [todos, setTodos] = React.useState([
-        {
-            text: "123456",
-            isCompleted: false
-        },
+        
     ]);
 
     const addTodo = text => {

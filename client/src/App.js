@@ -29,6 +29,7 @@ class App extends Component {
       // Use web3 to get the user's accounts.
       const accounts = await web3.eth.getAccounts();
 
+      console.log(accounts);
       // Get the contract instance
       const networkId = await web3.eth.net.getId();
       const deployedNetwork = MainContract.networks[networkId];
@@ -58,10 +59,11 @@ class App extends Component {
     // await contract.methods.set(7).send({ from: accounts[0] });
 
     // Get the value from the contract to prove it worked.
-    const response = await contract.methods.get().call();
+    // // const response = await contract.taskCount();
+    // const response= await contract.methods.taskCount().send({from:accounts[0]})
     // Update state with the result.
-    this.setState({ storageValue: response });
-    console.log(response)
+    // this.setState({ storageValue: response });
+    // console.log(response)
   };
 
   render() {
@@ -70,48 +72,48 @@ class App extends Component {
       return <div>Loading Web3, accounts, and contract...</div>;
     }
     return (
-      // <Router>
-      //   <div >
-      //     <Navbar bg="dark" variant="dark">
-      //       <Container>
-      //         <Navbar.Brand href="/">
-      //           Blockchain Examination
-      //         </Navbar.Brand>
-      //         <Navbar.Collapse className="justify-content-end">
-      //           {/* <Navbar.Text>
-      //             <Link to="/result">Result</Link>
-      //           </Navbar.Text>
-      //           <p>&nbsp; </p>
-      //            */}
-      //         </Navbar.Collapse>
-      //       </Container>
-      //     </Navbar>
-      //     <div className="App">
-      //       <div>
-      //         <Switch>
-      //           <Route exact path="/" >
-      //             <HomePage />
-      //             {/* <ProfessorHome/> */}
-      //           </Route>
-      //           <Route path="/result" >
-      //             <ResultPage />
-      //           </Route>
-      //           <Route path="/main_checker" >
-      //             <MainCheckerPage />
-      //           </Route>
-      //           <Route path="/review_checker" >
-      //             <ReviewCheckerPage />
-      //           </Route>
-      //           <Route path="/answer_upload" >
-      //             < StudentPostAnswerPage />
-      //           </Route>
+      <Router>
+        <div >
+          <Navbar bg="dark" variant="dark">
+            <Container>
+              <Navbar.Brand href="/">
+                Blockchain Examination
+              </Navbar.Brand>
+              <Navbar.Collapse className="justify-content-end">
+                <Navbar.Text>
+                  {this.state.accounts[0]}
+                </Navbar.Text>
+                <p>&nbsp; </p>
+                
+              </Navbar.Collapse>
+            </Container>
+          </Navbar>
+          <div className="App">
+            <div>
+              <Switch>
+                <Route exact path="/" >
+                  {/* <HomePage /> */}
+                  <ProfessorHome/>
+                </Route>
+                <Route path="/result" >
+                  <ResultPage />
+                </Route>
+                <Route path="/main_checker" >
+                  <MainCheckerPage />
+                </Route>
+                <Route path="/review_checker" >
+                  <ReviewCheckerPage />
+                </Route>
+                <Route path="/answer_upload" >
+                  < StudentPostAnswerPage />
+                </Route>
 
-      //         </Switch>
-      //       </div>
-      //     </div>
-      //   </div>
-      // </Router >
-        <h1>The stored value is: {this.state.storageValue}</h1>
+              </Switch>
+            </div>
+          </div>
+        </div>
+      </Router >
+        // <h1>The stored value is: {this.state.response}</h1>
       );
   }
 }
