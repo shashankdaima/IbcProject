@@ -53,6 +53,13 @@ class App extends Component {
     }
   };
 
+  uploadAnswerSheet = async (fileHash, email)=>{
+    this.state.contract.methods.uploadAnswerSheet(fileHash, email).send({ from: this.state.accounts[0] }).on('transactionHash', (hash) => {
+     window.location.reload()
+    }).on('error', (e) =>{
+      window.alert('Error')
+    })
+  }
 
   runExample = async () => {
     const { accounts, contract } = this.state;
@@ -107,7 +114,7 @@ class App extends Component {
                   <ReviewCheckerPage />
                 </Route>
                 <Route path="/answer_upload" >
-                  < StudentPostAnswerPage />
+                  < StudentPostAnswerPage onAnswerSheetUpload={(fileHash, email) => this.uploadAnswerSheet(fileHash, email)}  />
                 </Route>
 
               </Switch>
