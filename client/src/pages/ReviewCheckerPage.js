@@ -3,6 +3,12 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import React, { Component, useState, useEffect } from "react";
 import MyPdfViewer from "./../components/pdf_view.js";
 
+import Dialog from "@material-ui/core/Dialog";
+import DialogContentText from "@material-ui/core/DialogContentText";
+import DialogTitle from "@material-ui/core/DialogTitle";
+import DialogActions from "@material-ui/core/DialogActions";
+import DialogContent from "@material-ui/core/DialogContent";
+
 function ReviewCheckerPage() {
         const [crossChecker, setCrossChecker] =useState();
         
@@ -19,6 +25,18 @@ function ReviewCheckerPage() {
         const [r3, setr3] =useState();
         const[c3,setc3] =useState();
         
+        var name2=JSON.parse(localStorage.getItem('form_data'));
+        
+        const [open, setOpen] = useState(false);
+
+        const openit = () => {
+            setOpen(true);
+        };
+  
+        const closeit = () => {
+             setOpen(false);
+        };
+
         const [formData, setFormData] = useState([{ "TA_ID": "","q1f":"","r1f":"","c1f":"","q2f":"","r2f":"","c2f":"","q3f":"","r3f":"","c3f":""}])
         function formSubmit(e){
             e.preventDefault();
@@ -41,7 +59,7 @@ function ReviewCheckerPage() {
             localStorage.setItem('cross_check',JSON.stringify(formData))
             console.log(formData)
         },[formData])
-
+    
     return (
 
         <Container fluid="md mt-2"  >
@@ -101,10 +119,54 @@ function ReviewCheckerPage() {
                                 <Form.Group className="mb-3" controlId="formBasicCheckbox">
                                     <Form.Check type="checkbox" label="I hereby confirm my submission" />
                                 </Form.Group>
+
+                                <table class="table table-striped">
+                                    <tr>
+                                    <th>GroupTA_ID</th>
+                                    <th>Q1_Marks</th>
+                                    <th>Q1_Rem.</th>
+                                    <th>Q2_Marks</th>
+                                    <th>Q2_Rem.</th>
+                                    <th>Q3_Marks</th>
+                                    <th>Q3_Rem.</th>
+                                    </tr>
+                                    {name2.map((val, par) => {
+                                    return (
+                                        <tr par={par}>
+                                        <td>{val.TA_ID}</td>
+                                        <td>{val.q1f}</td>
+                                        <td>{val.r1f}</td>
+                                        <td>{val.q2f}</td>
+                                        <td>{val.r2f}</td>
+                                        <td>{val.q3f}</td>
+                                        <td>{val.r3f}</td>
+                                        </tr>
+                                    )
+                                    })}
+                                </table>
+                              
+
+
                                 <div style={{ textAlign: "center" }}>
-                                    <Button variant="primary" type="submit" >
+                                    <Button variant="primary" type="submit" onClick={openit}>
                                         Submit
                                     </Button>
+                                    <Dialog open={open} onClose={closeit}>
+                                    <DialogTitle>{"Re-Checked Successfully !!!! "}</DialogTitle>
+                                    <DialogContent>
+                                    <DialogContentText>
+                                        You have Succesfully Re-checked the answer sheet
+                                        Marks provided {parseInt(q1)+parseInt(q2)+parseInt(q3)}
+                                    </DialogContentText>
+                                    </DialogContent>
+                                    <DialogActions>
+                                    <Button onClick={closeit} 
+                                         color="primary" autoFocus>
+                                    Close
+                                    </Button>
+                                    </DialogActions>
+                                    </Dialog>
+
                                 </div>
                             </Form>
                         </Card.Body>

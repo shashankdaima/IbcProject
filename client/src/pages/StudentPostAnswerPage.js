@@ -140,7 +140,6 @@ function StudentPostAnswerPage  () {
           </Card.Body>
         </Card>
       </Container>
-    );
-  
+    );  
 }
 export default StudentPostAnswerPage;

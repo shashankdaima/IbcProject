@@ -4,6 +4,11 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import "./../App.css"
 import { usePdf } from "@mikecousins/react-pdf";
 import MyPdfViewer from "./../components/pdf_view.js";
+import Dialog from "@material-ui/core/Dialog";
+import DialogContentText from "@material-ui/core/DialogContentText";
+import DialogTitle from "@material-ui/core/DialogTitle";
+import DialogActions from "@material-ui/core/DialogActions";
+import DialogContent from "@material-ui/core/DialogContent";
 
 function MainCheckerPage()  {
 
@@ -18,6 +23,17 @@ function MainCheckerPage()  {
   
   const [q3, setq3] =useState();
   const [r3, setr3] =useState();
+
+  const [open, setOpen] = useState(false);
+  
+  const openit = () => {
+    setOpen(true);
+  };
+  
+  const closeit = () => {
+    setOpen(false);
+  };
+
 
   const [formData, setFormData] = useState([{ "TA_ID": "","sID":"","q1f":"","r1f":"","q2f":"","r2f":"","q3f":"","r3f":""}])
   function formSubmit(e){
@@ -88,9 +104,24 @@ function MainCheckerPage()  {
                   </Form.Group>
 
                   <div style={{ textAlign: "center" }}>
-                    <Button variant="primary" type="submit" >
-                      Submit
+                    <Button variant="primary" type="submit" onClick={openit}>
+                      Submit 
                     </Button>
+
+                    <Dialog open={open} onClose={closeit}>
+                    <DialogTitle>{"Checked Successfully !!!! "}</DialogTitle>
+                    <DialogContent>
+                    <DialogContentText>
+                      You have Succesfully checked the answer sheet for Student {studentID} Marks provided {parseInt(q1)+parseInt(q2)+parseInt(q3)}
+                    </DialogContentText>
+                    </DialogContent>
+                    <DialogActions>
+                    <Button onClick={closeit} 
+                        color="primary" autoFocus>
+                        Close
+                    </Button>
+                    </DialogActions>
+                    </Dialog>
                   </div>
                 </Form>
               </Card.Body>
