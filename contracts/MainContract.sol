@@ -24,6 +24,7 @@ contract MainContract {
   function createExamRoom(string [] memory _ta_list, uint  _ta_count,string memory _questionPaperHash)public {
     require(bytes(_questionPaperHash).length>0);
     require(_ta_count>0);
+    require(msg.sender!= address(0x0));
     examRoomPointer++;
     examRooms[examRoomPointer]=ExamRoom(examRoomPointer,_questionPaperHash, _ta_list, _ta_count, msg.sender);
     emit ExamRoomCreated(examRoomPointer,_questionPaperHash, _ta_list, _ta_count, msg.sender);

@@ -7,7 +7,7 @@ export default function MyPdfViewer() {
     const canvasRef = useRef(null);
 
     const { pdfDocument, pdfPage } = usePdf({
-        file: 'book.pdf',
+        file: 'https://ipfs.infura.io/ipfs/QmPfdi9UHQZVcFzJidqBPKL9AsA6mQiAX45mHJGkTJJrUf',
         page,
         canvasRef,
     });

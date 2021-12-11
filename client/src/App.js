@@ -17,10 +17,12 @@ import {
   Navbar,
   Container
 } from 'react-bootstrap';
+
+
 class App extends Component {
   state = { storageValue: 0, web3: null, accounts: null, contract: null };
-
-
+  
+// https://bafybeifzr4uvto2hm6e7ixpxgbngsnwgk5vhfxk3dxekm3zwmnupur3gom.ipfs.infura-ipfs.io/
   componentDidMount = async () => {
     try {
       // Get network provider and web3 instance.
@@ -93,7 +95,7 @@ class App extends Component {
               <Switch>
                 <Route exact path="/" >
                   {/* <HomePage /> */}
-                  <ProfessorHome/>
+                  <ProfessorHome />
                 </Route>
                 <Route path="/result" >
                   <ResultPage />
