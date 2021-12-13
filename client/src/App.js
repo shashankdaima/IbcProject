@@ -48,8 +48,12 @@ class App extends Component {
     }
   }
   createExamRoom = async (fileHash, arrayOfTa) => {
-    console.log(await this.state.contract.methods
-      .getExamRoom(1).call())
+    this.state.contract.createExamRoom(arrayOfTa,1,fileHash).send({from:this.state.account[0]}).on('transactionHash', (hash) => {
+      window.location.reload()
+    })
+    .on('error', (e) => {
+      window.alert('Error')
+    })
   }
 
   uploadAnswerSheet = async (fileHash, email) => {
@@ -62,6 +66,7 @@ class App extends Component {
       .on('error', (e) => {
         window.alert('Error')
       })
+    // console.log(await this.state.contract.methods.answerSheets(1).call())
   }
 
   runExample = async () => {
@@ -77,6 +82,7 @@ class App extends Component {
     // this.setState({ storageValue: response });
     // console.log(response)
   }
+
 
   render() {
     if (!this.state.web3) {
@@ -109,7 +115,7 @@ class App extends Component {
                   <ResultPage />
                 </Route>
                 <Route path="/main_checker">
-                  <MainCheckerPage />
+                  <MainCheckerPage  contract ={this.state.contract}/>
                 </Route>
                 <Route path="/review_checker">
                   <ReviewCheckerPage />

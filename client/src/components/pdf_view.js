@@ -1,17 +1,21 @@
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { usePdf } from "@mikecousins/react-pdf";
 import {  Row, Col } from "react-bootstrap";
 
-export default function MyPdfViewer() {
+export default function MyPdfViewer(props) {
     const [page, setPage] = useState(1);
     const canvasRef = useRef(null);
-
+    const [uri,setUri] =useState();
     const { pdfDocument, pdfPage } = usePdf({
-        file: 'https://ipfs.infura.io/ipfs/QmPfdi9UHQZVcFzJidqBPKL9AsA6mQiAX45mHJGkTJJrUf',
+        file: 'https://ipfs.infura.io/ipfs/'+'QmPfdi9UHQZVcFzJidqBPKL9AsA6mQiAX45mHJGkTJJrUf',
         page,
         canvasRef,
     });
 
+    useEffect(async ()=>{
+        console.log(props.fileHash().answer_sheet)
+        // setUri(props.fileHash().)
+      },[])
     return (
         <div >
             {!pdfDocument && <span>Loading...</span>}

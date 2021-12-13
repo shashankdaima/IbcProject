@@ -19,10 +19,11 @@ import DialogTitle from '@material-ui/core/DialogTitle'
 import DialogActions from '@material-ui/core/DialogActions'
 import DialogContent from '@material-ui/core/DialogContent'
 
-function MainCheckerPage() {
+function MainCheckerPage(props) {
+  const [answerSheetId,setAnswerSheetId]=useState()
   const [checkerID, setCheckerID] = useState()
   const [studentID, setStudentID] = useState()
-
+  const [answerSheet, setAnswerSheet]=useState();
   const [q1, setq1] = useState()
   const [r1, setr1] = useState()
 
@@ -89,12 +90,17 @@ function MainCheckerPage() {
     console.log(formData)
   }, [formData])
 
+  useEffect(async ()=>{
+    var answerSheet=await props.contract.methods.answerSheets(1).call();
+    setAnswerSheet(answerSheet)
+    // console.log(answerSheet)
+  },[])
   return (
     <Container fluid="md mt-2">
       <Card>
         <Row>
           <Col>
-            <MyPdfViewer />
+            <MyPdfViewer fileHash={async ()=>{await props.contract.methods.answerSheets(1).call()}}/>
           </Col>
 
           <Col>
