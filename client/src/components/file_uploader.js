@@ -66,7 +66,7 @@ export default class FileUploader extends Component {
       <div>
         <h3>Upload Question Paper</h3>
         <div>
-          <input type="file" onChange={this.retrieveFile}  accept="application/pdf,application/vnd.ms-excel" />
+          <input type="file" onChange={this.retrieveFile}  accept="application/pdf" />
         </div>
         {this.fileData()}
       </div>

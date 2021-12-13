@@ -13,7 +13,7 @@ import {
 import stylesApp from './../App.css'
 import TaList from '../components/ta_list'
 
-export default function ProfessorHome() {
+export default function ProfessorHome(props) {
   const ipfsClient = require('ipfs-http-client')
   const ipfs = ipfsClient({
     host: 'ipfs.infura.io',
@@ -27,8 +27,9 @@ export default function ProfessorHome() {
 
   const createExamRoom = () => {
     ipfs.add(fileBuffer,(error,result)=>{
-        
-    })
+        // console.log(result[0].hash);
+        props.onRoomCreate(result[0].hash, taList)
+      })
   }
   return (
     <div className="container">
