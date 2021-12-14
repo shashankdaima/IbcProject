@@ -36,7 +36,14 @@ function ReviewCheckerPage() {
         const closeit = () => {
              setOpen(false);
         };
-
+        function ClickButton(){
+            if (crossChecker && q1 && r1 && c1 && q2 && r2 && c2 && q3 && r3 && c3){
+                return <Button variant="primary" type="submit" onClick={openit}>
+                Submit</Button>
+            } else {
+                return <Button variant="primary" type="submit" disabled>Submit</Button>
+            };
+        };
         const [formData, setFormData] = useState([{ "TA_ID": "","q1f":"","r1f":"","c1f":"","q2f":"","r2f":"","c2f":"","q3f":"","r3f":"","c3f":""}])
         function formSubmit(e){
             e.preventDefault();
@@ -148,9 +155,7 @@ function ReviewCheckerPage() {
 
 
                                 <div style={{ textAlign: "center" }}>
-                                    <Button variant="primary" type="submit" onClick={openit}>
-                                        Submit
-                                    </Button>
+                                    <ClickButton/>
                                     <Dialog open={open} onClose={closeit}>
                                     <DialogTitle>{"Re-Checked Successfully !!!! "}</DialogTitle>
                                     <DialogContent>
