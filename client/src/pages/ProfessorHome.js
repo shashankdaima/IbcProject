@@ -1,4 +1,3 @@
-
 import { auto, read } from '@popperjs/core'
 import FileUploader from '../components/file_uploader'
 import React, { Component, useState } from 'react'
@@ -16,7 +15,7 @@ import TaList from '../components/ta_list'
 
 export default function ProfessorHome(props) {
   const ipfsClient = require('ipfs-http-client')
-  const ipfs = ipfsClient({
+  const ipfs = ipfsClient.create({
     host: 'ipfs.infura.io',
     port: 5001,
     protocol: 'https',

@@ -1,4 +1,5 @@
 import React, {useState, Component, useEffect } from "react";
+import { Container, Card, Form, Button, Row, Col, ListGroup, ListGroupItem } from "react-bootstrap";
 import styles from './../App.css'
 import getWeb3 from "./../getWeb3";
 import Popup from "../components/popup"
@@ -6,8 +7,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import StudentResultPage from "./../components/student_result_page";
 
 function ResultPage(){  
-  
-
+    const [searchit,setsearchit]=useState("");
     const mainBorderStyle = {
         color: "black",
         //backgroundColor: "black",
@@ -60,12 +60,63 @@ function ResultPage(){
 
     {/* https://www.cluemediator.com/create-simple-popup-in-reactjs*/}
     return(
+        <div style={{textAlign:"left" , padding:"10px" }} >
         <div style={mainBorderStyle}>    
-                <h1 style={subBorderStyle}>Result Page</h1>     
+                <h1 style={subBorderStyle}>Result Page</h1>  
+                <h4>Enter StudentID to see your result</h4>
+                <input
+                    type="text"
+                    placeholder="Enter StudentID here  "
+                    onChange={(event)=>{
+                        setsearchit(event.target.value);
+                    }}
+                />
+                
+
+                <table class="table table-striped">
+                                    <tr>
+                                    <th>Student ID</th>   
+                                    <th>GroupTA ID</th>
+                                    <th>Q1 Marks</th>
+                                    <th>Q1 Rem.</th>
+                                    <th>Q2 Marks</th>
+                                    <th>Q2 Rem.</th>
+                                    <th>Q3 Marks</th>
+                                    <th>Q3 Rem.</th>
+                                    </tr>
+
+
+                {mainCheck.filter((val)=>{
+                    if (searchit==val.sID){
+                        return val
+                    }
+                    else if(val.sID.toLowerCase().includes(searchit.toLowerCase()))  {
+
+                }
+
+
+                }).map((val,key)=>{
+                    return (
+                        <tr className="hi" key={key}>
+                                        <td>{val.sID}</td>
+                                        <td>{val.TA_ID}</td>
+                                        <td>{val.q1f}</td>
+                                        <td>{val.r1f}</td>
+                                        <td>{val.q2f}</td>
+                                        <td>{val.r2f}</td>
+                                        <td>{val.q3f}</td>
+                                        <td>{val.r3f}</td>
+                                        </tr>
+                );
+                })}
+                </table>
+                
+
+
             
-            <div style={{textAlign:"left" , padding:"10px" }} >
-                    <div  style={mainBorderStyle} >
-                    <table class="table table-striped">
+            
+                    {/* <div  style={mainBorderStyle} > */}
+                    {/* <table class="table table-striped">
                                     <tr>
                                     <th>Student ID</th>   
                                     <th>GroupTA ID</th>
@@ -77,7 +128,7 @@ function ResultPage(){
                                     <th>Q3 Rem.</th>
                                     </tr>
                                     {mainCheck.map((val) => {
-                                    if(val.sID=="test@test.com")
+                                    // if(val.sID=="test@test.com")
                                     return (                                        
                                         <tr>
                                         <td>{val.sID}</td>
@@ -91,8 +142,8 @@ function ResultPage(){
                                         </tr>
                                     )
                                     })}
-                                </table>
-                    </div>
+                                </table> */}
+                    {/* </div> */}
                     
             </div>
             <div>

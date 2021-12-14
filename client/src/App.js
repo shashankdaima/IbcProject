@@ -205,6 +205,9 @@ class App extends Component {
                 <Route path="/result">
                   <ResultPage />
                 </Route>
+                <Route path="/check_select">
+                  <CheckSelect />
+                </Route>
                 <Route path="/main_checker">
                   <MainCheckerPage contract={this.state.contract} />
                 </Route>
