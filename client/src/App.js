@@ -28,7 +28,6 @@ class App extends Component {
       // Use web3 to get the user's accounts.
       const accounts = await web3.eth.getAccounts()
 
-      console.log(accounts)
       // Get the contract instance
       const networkId = await web3.eth.net.getId()
       const deployedNetwork = MainContract.networks[networkId]
@@ -87,14 +86,13 @@ class App extends Component {
       text += possible.charAt(Math.floor(Math.random() * possible.length))
     return text
   }
-  validRoomHash = async (roomHash) => {
+  validRoomHashForAnswerSheets = async (roomHash) => {
     let noOfExamRoomAvailable = await this.state.contract.methods
       .examRoomPointer()
       .call()
     var index = 1
     while (index <= noOfExamRoomAvailable) {
       let iExamRoom = await this.state.contract.methods.examRooms(index).call()
-
       if (iExamRoom['roomHash'] === roomHash) {
         var value = iExamRoom['ta_count']
 
@@ -108,17 +106,13 @@ class App extends Component {
     }
     return { response: false, position: -1 }
   }
-  // 0e5e4A6e1e1A0d36CCe20cEF8E4BcF54
-  // cCE95C3a142AfbCE0130e4bc99812ec8
-
   getRandomInt = (min, max) => {
     min = Math.ceil(min)
     max = Math.floor(max)
     return Math.floor(Math.random() * (max - min + 1)) + min
   }
   uploadAnswerSheet = async (fileHash, email, roomHash) => {
-    let response = await this.validRoomHash(roomHash)
-    // console.log(response)
+    let response = await this.validRoomHashForAnswerSheets(roomHash)
     if (response['response']) {
       this.state.contract.methods
         .uploadAnswerSheet(
@@ -148,20 +142,72 @@ class App extends Component {
       let iExamRoom = await this.state.contract.methods.examRooms(index).call()
 
       if (iExamRoom['roomHash'] === roomHash) {
-        return {response:true, data:iExamRoom["ta_list"],count:parseInt(Number(iExamRoom["ta_count"])) }
+        return {
+          response: true,
+          data: iExamRoom['ta_list'],
+          count: parseInt(Number(iExamRoom['ta_count'])),
+        }
       }
       index++
     }
-    return { response: false,error:"Illegal State Exception: Invalid Room Hash" }
+    return {
+      response: false,
+      error: 'Illegal State Exception: Invalid Room Hash',
+    }
   }
 
-  getAllAnswerSheetsForMainChecker = async (examRoomHash) => {
-    const currentUser= this.state.accounts[0];
-    let response=await this.validRoomHashForChecker(examRoomHash)
-    console.log(currentUser);
-    console.log(response);
+  getValidUserIndex=(arrOfTas,currentUser)=>{
+    for(let i in arrOfTas){
+      if(arrOfTas[i]===currentUser){
+        return {result:true,index:Number(i)+1}
+      }
+    }
+    return {result:false}
   }
 
+  getAnswerSheets = async (roomHash, ta_index) => {
+    let noOfAnswerSheets = await this.state.contract.methods
+      .answerSheetPointer()
+      .call()
+    let result=[]
+    let response = await this.validRoomHashForAnswerSheets(roomHash)
+    let mappingPosition =response['position']
+    // console.log(typeof(mappingPosition))
+    for (let i = 1; i <= parseInt(Number(noOfAnswerSheets)); i++) {
+      let answerSheet= await this.state.contract.methods.answerSheets(i).call();
+      if(Number(answerSheet["examRoomId"])==Number(mappingPosition)&&Number(answerSheet["taIndex"])==ta_index){
+        result.push(answerSheet)
+      }
+    }
+    if(result.length>0){
+      return { response: true,result:result }
+
+    }
+    return { response: false}
+  }
+
+  getAllAnswerSheetsForChecker = async (examRoomHash) => {
+    const currentUser = this.state.accounts[0]
+    let response = await this.validRoomHashForChecker(examRoomHash)
+    // console.log(currentUser)
+    // console.log(response)
+    let arrOfTas=this.taListDecoder(response["data"])
+    let result =this.getValidUserIndex(arrOfTas,currentUser) // roomHash is authed and ta ka index bhi pata 
+    if(result["result"]){
+      console.log(result)
+      let response=await this.getAnswerSheets(examRoomHash, result["index"])
+      if(response["response"]){
+        return response["result"]
+      }
+      else{
+        return null;
+      }
+    }else{
+      alert("Failure")
+    }
+    
+  }
+  // A1DBE4AD6640875aF1cC74cd0128Ee48
   runExample = async () => {
     const { accounts, contract } = this.state
 
@@ -206,7 +252,11 @@ class App extends Component {
                   <ResultPage />
                 </Route>
                 <Route path="/check_select">
-                  <CheckSelect />
+                  <CheckSelect
+                    onSearch={(query) => {
+                     return this.getAllAnswerSheetsForChecker(query)
+                    }}
+                  />
                 </Route>
                 <Route path="/main_checker">
                   <MainCheckerPage contract={this.state.contract} />
@@ -217,7 +267,6 @@ class App extends Component {
                 <Route path="/answer_upload">
                   <StudentPostAnswerPage
                     onAnswerSheetUpload={(fileHash, email, roomHash) => {
-                      // console.log(roomHash)
                       this.uploadAnswerSheet(fileHash, email, roomHash)
                     }}
                   />
