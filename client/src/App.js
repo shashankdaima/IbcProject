@@ -12,6 +12,7 @@ import StudentPostAnswerPage from './pages/StudentPostAnswerPage'
 import ProfessorHome from './pages/ProfessorHome'
 import './App.css'
 import '../node_modules/bootstrap/dist/css/bootstrap.min.css'
+import CheckSelect from './pages/CheckSelect'
 
 import { Navbar, Container } from 'react-bootstrap'
 
@@ -113,6 +114,9 @@ class App extends Component {
                 </Route>
                 <Route path="/result">
                   <ResultPage />
+                </Route>
+                <Route path="/check_select">
+                  <CheckSelect />
                 </Route>
                 <Route path="/main_checker">
                   <MainCheckerPage  contract ={this.state.contract}/>

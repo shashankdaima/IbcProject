@@ -20,6 +20,8 @@ import DialogActions from '@material-ui/core/DialogActions'
 import DialogContent from '@material-ui/core/DialogContent'
 
 function MainCheckerPage(props) {
+  console.log(props.location.dataPass.name)
+
   const [answerSheetId,setAnswerSheetId]=useState()
   const [checkerID, setCheckerID] = useState()
   const [studentID, setStudentID] = useState()
@@ -82,12 +84,14 @@ function MainCheckerPage(props) {
     console.log(formData)
     const mem = JSON.parse(localStorage.getItem('form_data'))
     console.log(mem[2].q3f);
+    
   }
 
   //useEffect
   useEffect(() => {
     const mem = JSON.parse(localStorage.getItem('form_data'))
     console.log(mem)
+    
     if (mem !== null) {
       setFormData(mem)
       console.log('run')
@@ -99,7 +103,7 @@ function MainCheckerPage(props) {
   }, [formData])
 
   useEffect(async ()=>{
-    var answerSheet=await props.contract.methods.answerSheets(1).call();
+   // var answerSheet=await props.contract.methods.answerSheets(1).call();
     setAnswerSheet(answerSheet)
     // console.log(answerSheet)
   },[])
@@ -108,7 +112,7 @@ function MainCheckerPage(props) {
       <Card>
         <Row>
           <Col>
-            <MyPdfViewer fileHash={async ()=>{await props.contract.methods.answerSheets(1).call()}}/>
+            {/**<MyPdfViewer fileHash={async ()=>{await props.contract.methods.answerSheets(1).call()}}/>**/}
           </Col>
 
           <Col>
