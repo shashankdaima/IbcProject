@@ -135,7 +135,6 @@ function MainCheckerPage(props) {
                   />
                 </Form.Group>
 
-
                 <Form.Group className="mb-3">
                   <Form.Label>Q1 Details</Form.Label>
                   <Form.Control
