@@ -15,9 +15,10 @@ import '../node_modules/bootstrap/dist/css/bootstrap.min.css'
 
 import { Navbar, Container } from 'react-bootstrap'
 import Page404 from './pages/404page'
+const regex="/(\w+:{0,1}\w*@)?/";
+
 class App extends Component {
   state = { storageValue: 0, web3: null, accounts: null, contract: null }
-
   // https://bafybeifzr4uvto2hm6e7ixpxgbngsnwgk5vhfxk3dxekm3zwmnupur3gom.ipfs.infura-ipfs.io/
   componentDidMount = async () => {
     try {
@@ -48,12 +49,9 @@ class App extends Component {
     }
   }
   createExamRoom = async (fileHash, arrayOfTa) => {
-    // console.log(fileHash)
-    // console.log(arrayOfTa)
     let roomKey = this.randomHashGenerator32()
-    // console.log(this.state.contract)
     this.state.contract.methods
-      .createExamRoom(roomKey, arrayOfTa.toString(), arrayOfTa.length, fileHash)
+      .createExamRoom(roomKey, this.taListEncoder(arrayOfTa), arrayOfTa.length, fileHash)
       .send({ from: this.state.accounts[0] })
       .on('transactionHash', (hash) => {
         // window.location.reload()
@@ -66,7 +64,17 @@ class App extends Component {
         window.alert('Error')
       })
   }
-
+  taListEncoder=(taList)=>{
+    var result =""
+    for(var i in taList){
+      result+=taList[i]["text"]+regex
+    }
+    return result
+  }
+  taListDecoder=(encodedTaList, taCount)=>{
+    var result =encodedTaList.split(regex)
+    return result
+  }
   randomHashGenerator32 = () => {
     var text = ''
     var possible = 'ABCDEFabcdef0123456789'
@@ -94,6 +102,8 @@ class App extends Component {
     return { response: false, position: -1 }
   }
 // 0e5e4A6e1e1A0d36CCe20cEF8E4BcF54
+// cCE95C3a142AfbCE0130e4bc99812ec8
+
   getRandomInt=(min, max)=>{
     min = Math.ceil(min);
     max = Math.floor(max);

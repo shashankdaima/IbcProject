@@ -29,6 +29,7 @@ export default function ProfessorHome(props) {
   const createExamRoom = () => {
     ipfs.add(fileBuffer,(error,result)=>{
         props.onRoomCreate(result[0].hash, taList)
+        
       })
   }
   return (
