@@ -14,7 +14,7 @@ import './App.css'
 import '../node_modules/bootstrap/dist/css/bootstrap.min.css'
 
 import { Navbar, Container } from 'react-bootstrap'
-
+import Page404 from './pages/404page'
 class App extends Component {
   state = { storageValue: 0, web3: null, accounts: null, contract: null }
 
@@ -48,12 +48,21 @@ class App extends Component {
     }
   }
   createExamRoom = async (fileHash, arrayOfTa) => {
-    this.state.contract.createExamRoom(arrayOfTa,1,fileHash).send({from:this.state.account[0]}).on('transactionHash', (hash) => {
-      window.location.reload()
-    })
-    .on('error', (e) => {
-      window.alert('Error')
-    })
+    console.log(fileHash);
+    console.log(arrayOfTa);
+    const arr=["ta1","ta2","ta3"]
+
+    // console.log(this.state.contract)
+    this.state.contract.methods
+      .createExamRoom(arrayOfTa.toString(),arr.length,fileHash)
+      .send({ from: this.state.accounts[0] })
+      .on('transactionHash', (hash) => {
+        window.location.reload()
+      })
+      .on('error', (e) => {
+        window.alert('Error')
+      })
+    
   }
 
   uploadAnswerSheet = async (fileHash, email) => {
@@ -68,6 +77,8 @@ class App extends Component {
       })
     // console.log(await this.state.contract.methods.answerSheets(1).call())
   }
+
+
 
   runExample = async () => {
     const { accounts, contract } = this.state
@@ -104,12 +115,12 @@ class App extends Component {
             <div>
               <Switch>
                 <Route exact path="/">
-                  {/* <HomePage /> */}
-                  <ProfessorHome
+                  <HomePage />
+                  {/* <ProfessorHome
                     onRoomCreate={(fileHash, arrayOfTa) => {
                       this.createExamRoom(fileHash, arrayOfTa)
-                    }}
-                  />
+                    }} */}
+                  {/* /> */}
                 </Route>
                 <Route path="/result">
                   <ResultPage />
@@ -127,6 +138,7 @@ class App extends Component {
                     }
                   />
                 </Route>
+                <Route ><Page404/></Route>
               </Switch>
             </div>
           </div>
