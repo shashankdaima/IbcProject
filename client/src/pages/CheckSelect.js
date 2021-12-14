@@ -8,7 +8,7 @@ function CheckSelect(){
     const mainBorderStyle = {
         color: "black",
         //backgroundColor: "black",
-        padding: "10px",
+        padding: "12px",
         //fontFamily: "Arial",
         border: '4.5px solid black',
         
@@ -23,6 +23,8 @@ function CheckSelect(){
         
     }
     
+    const [isSubmit,setIsSubmit]=useState(false)
+
     //roomHash
     //SerialNumber
     //Name
@@ -41,9 +43,13 @@ function CheckSelect(){
                     onChange={(event)=>{
                         setsearchit(event.target.value);
                     }}
-                />
                 
-
+                />
+                 <Button onClick={()=>{
+                    if(isSubmit==false){setIsSubmit(true)} 
+                    else{setIsSubmit(false)}}}>
+                        Search
+                </Button>
                 <table class="table table-striped">
                                     <tr>
                                     <th>Sno.</th>   
@@ -53,7 +59,7 @@ function CheckSelect(){
                                     </tr>
 
                 {mainCheck.filter((val)=>{
-                    if (searchit==val.sID && searchit!=""){
+                    if (searchit==val.sID && searchit!="" && isSubmit ==true){
                         return val
                     }
     
