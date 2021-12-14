@@ -81,22 +81,29 @@ class App extends Component {
     var index = 1
     while (index <= noOfExamRoomAvailable) {
       let iExamRoom = await this.state.contract.methods.examRooms(index).call()
-     
+      
 
       if (iExamRoom['roomHash'] === roomHash) {
-        return { response: true, position: index }
+        console.log(iExamRoom)
+        this.getRandomInt(1, iExamRoom["ta_count"])
+        return { response: true, position: index , ta_pos:2 }
       }
       index++
     }
     return { response: false, position: -1 }
   }
-  // 99df6F912F2Aae1bEfe6a0b5Ba46Fa36
+// 0e5e4A6e1e1A0d36CCe20cEF8E4BcF54
+  getRandomInt=(min, max)=>{
+    min = Math.ceil(min);
+    max = Math.floor(max);
+    return Math.floor(Math.random() * (max - min + 1)) + min;
+  }
   uploadAnswerSheet = async (fileHash, email, roomHash) => {
     let response = await this.validRoomHash(roomHash)
-    // console.log(response)
+    console.log(response)
     if (response['response']) {
       this.state.contract.methods
-        .uploadAnswerSheet(fileHash, response['position'], email)
+        .uploadAnswerSheet(fileHash, response['position'], email,response['ta_pos'])
         .send({ from: this.state.accounts[0] })
         .on('transactionHash', (hash) => {
           // window.location.reload()
@@ -108,6 +115,7 @@ class App extends Component {
     } else {
       alert('Illegal State Exception: Invalid Room Hash')
     }
+   
   }
 
   runExample = async () => {

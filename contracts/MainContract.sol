@@ -23,6 +23,7 @@ contract MainContract {
     string email; //Email
     address pubkey; // Student ID 
     uint maxMarks;
+    uint taIndex;
   }
 
   struct MainCheckerReview{
@@ -122,13 +123,15 @@ contract MainContract {
     	}	
     }
 // UTIL END
-  function uploadAnswerSheet( string memory _answer_sheet, uint examId,string memory _email)public {
+  
+
+  function uploadAnswerSheet( string memory _answer_sheet, uint examId,string memory _email, uint taIndex)public {
     require(bytes(_answer_sheet).length>0);
     require(bytes(_email).length>0);
     // require(examRoomId>0);
     require(msg.sender!= address(0x0));
     answerSheetPointer++;
-    answerSheets[answerSheetPointer]=AnswerSheet(answerSheetPointer, examId, _answer_sheet,_email, msg.sender, 100);
+    answerSheets[answerSheetPointer]=AnswerSheet(answerSheetPointer, examId, _answer_sheet,_email, msg.sender, 100, taIndex);
   } 
 
   
