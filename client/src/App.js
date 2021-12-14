@@ -12,9 +12,9 @@ import StudentPostAnswerPage from './pages/StudentPostAnswerPage'
 import ProfessorHome from './pages/ProfessorHome'
 import './App.css'
 import '../node_modules/bootstrap/dist/css/bootstrap.min.css'
-
 import { Navbar, Container } from 'react-bootstrap'
 import Page404 from './pages/404page'
+import CheckSelect from './pages/CheckSelect'
 const regex = '/(w+:{0,1}w*@)?/'
 
 class App extends Component {
