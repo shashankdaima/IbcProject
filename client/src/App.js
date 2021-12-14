@@ -1,4 +1,4 @@
-import React, { Component, useState } from 'react'
+import React, { Component, useState, useEffect } from 'react'
 // import MainContract from "./contracts/SimpleStorage.json";
 import MainContract from './contracts/MainContract.json'
 import getWeb3 from './getWeb3'
@@ -18,13 +18,36 @@ import CheckSelect from './pages/CheckSelect'
 const regex = '/(w+:{0,1}w*@)?/'
 
 class App extends Component {
-  state = { storageValue: 0, web3: null, accounts: null, contract: null }
+  state = {
+    storageValue: 0,
+    web3: null,
+    accounts: null,
+    contract: null,
+    submitData: [
+      {
+        studentfileHash: '',
+        studentEmail: '',
+        studentRoomHash: '',
+      },
+    ],
+    memory: JSON.parse(localStorage.getItem('submit')),
+  }
+  submitData = (fileHash, email, roomHash) => {
+    this.state.submitData.concat({
+      studentfileHash: fileHash,
+      studentEmail: email,
+      studentRoomHash: roomHash,
+    })
+  }
   // https://bafybeifzr4uvto2hm6e7ixpxgbngsnwgk5vhfxk3dxekm3zwmnupur3gom.ipfs.infura-ipfs.io/
   componentDidMount = async () => {
     try {
       // Get network provider and web3 instance.
       const web3 = await getWeb3()
-
+      // if (this.state.memory !== null) {
+      //   setSubmitData(mem)
+      //   console.log('run')
+      // }
       // Use web3 to get the user's accounts.
       const accounts = await web3.eth.getAccounts()
 
@@ -47,6 +70,7 @@ class App extends Component {
       console.error(error)
     }
   }
+
   createExamRoom = async (fileHash, arrayOfTa) => {
     let roomKey = this.randomHashGenerator32()
     this.state.contract.methods
@@ -111,9 +135,21 @@ class App extends Component {
     max = Math.floor(max)
     return Math.floor(Math.random() * (max - min + 1)) + min
   }
+
+  // 40E3f37B69EB90BBc0DA7Ec5DBCAf3A4
   uploadAnswerSheet = async (fileHash, email, roomHash) => {
     let response = await this.validRoomHashForAnswerSheets(roomHash)
+    console.log(response)
     if (response['response']) {
+      // this.submitData(fileHash,email, roomHash);
+      this.state.submitData = this.state.submitData.concat({
+        studentfileHash: fileHash,
+        studentEmail: email,
+        studentRoomHash: roomHash,
+      })
+
+      localStorage.setItem('submit', JSON.stringify(this.state.submitData))
+
       this.state.contract.methods
         .uploadAnswerSheet(
           fileHash,
@@ -133,6 +169,7 @@ class App extends Component {
       alert('Illegal State Exception: Invalid Room Hash')
     }
   }
+
   validRoomHashForChecker = async (roomHash) => {
     let noOfExamRoomAvailable = await this.state.contract.methods
       .examRoomPointer()
@@ -156,34 +193,36 @@ class App extends Component {
     }
   }
 
-  getValidUserIndex=(arrOfTas,currentUser)=>{
-    for(let i in arrOfTas){
-      if(arrOfTas[i]===currentUser){
-        return {result:true,index:Number(i)+1}
+  getValidUserIndex = (arrOfTas, currentUser) => {
+    for (let i in arrOfTas) {
+      if (arrOfTas[i] === currentUser) {
+        return { result: true, index: Number(i) + 1 }
       }
     }
-    return {result:false}
+    return { result: false }
   }
 
   getAnswerSheets = async (roomHash, ta_index) => {
     let noOfAnswerSheets = await this.state.contract.methods
       .answerSheetPointer()
       .call()
-    let result=[]
+    let result = []
     let response = await this.validRoomHashForAnswerSheets(roomHash)
-    let mappingPosition =response['position']
+    let mappingPosition = response['position']
     // console.log(typeof(mappingPosition))
     for (let i = 1; i <= parseInt(Number(noOfAnswerSheets)); i++) {
-      let answerSheet= await this.state.contract.methods.answerSheets(i).call();
-      if(Number(answerSheet["examRoomId"])==Number(mappingPosition)&&Number(answerSheet["taIndex"])==ta_index){
+      let answerSheet = await this.state.contract.methods.answerSheets(i).call()
+      if (
+        Number(answerSheet['examRoomId']) == Number(mappingPosition) &&
+        Number(answerSheet['taIndex']) == ta_index
+      ) {
         result.push(answerSheet)
       }
     }
-    if(result.length>0){
-      return { response: true,result:result }
-
+    if (result.length > 0) {
+      return { response: true, result: result }
     }
-    return { response: false}
+    return { response: false }
   }
 
   getAllAnswerSheetsForChecker = async (examRoomHash) => {
@@ -191,21 +230,19 @@ class App extends Component {
     let response = await this.validRoomHashForChecker(examRoomHash)
     // console.log(currentUser)
     // console.log(response)
-    let arrOfTas=this.taListDecoder(response["data"])
-    let result =this.getValidUserIndex(arrOfTas,currentUser) // roomHash is authed and ta ka index bhi pata 
-    if(result["result"]){
+    let arrOfTas = this.taListDecoder(response['data'])
+    let result = this.getValidUserIndex(arrOfTas, currentUser) // roomHash is authed and ta ka index bhi pata
+    if (result['result']) {
       console.log(result)
-      let response=await this.getAnswerSheets(examRoomHash, result["index"])
-      if(response["response"]){
-        return response["result"]
+      let response = await this.getAnswerSheets(examRoomHash, result['index'])
+      if (response['response']) {
+        return response['result']
+      } else {
+        return null
       }
-      else{
-        return null;
-      }
-    }else{
-      alert("Failure")
+    } else {
+      alert('Failure')
     }
-    
   }
   // A1DBE4AD6640875aF1cC74cd0128Ee48
   runExample = async () => {
@@ -252,11 +289,7 @@ class App extends Component {
                   <ResultPage />
                 </Route>
                 <Route path="/check_select">
-                  <CheckSelect
-                    onSearch={(query) => {
-                     return this.getAllAnswerSheetsForChecker(query)
-                    }}
-                  />
+                  <CheckSelect />
                 </Route>
                 <Route path="/main_checker">
                   <MainCheckerPage contract={this.state.contract} />
@@ -284,3 +317,5 @@ class App extends Component {
 }
 
 export default App
+
+// 4aaC02de9547dA9CE31Da5BadBE6A037

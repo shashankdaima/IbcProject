@@ -12,12 +12,12 @@ import {
 import { Link } from 'react-router-dom'
 import 'bootstrap/dist/css/bootstrap.min.css'
 
-function CheckSelect(props) {
+function CheckSelect() {
   const [searchit, setsearchit] = useState('')
   const mainBorderStyle = {
     color: 'black',
     //backgroundColor: "black",
-    padding: '10px',
+    padding: '12px',
     //fontFamily: "Arial",
     border: '4.5px solid black',
   }
@@ -29,12 +29,14 @@ function CheckSelect(props) {
   }
   const addStudent = () => {}
 
+  const [isSubmit, setIsSubmit] = useState(false)
+
   //roomHash
   //SerialNumber
   //Name
   //EvalLink
   //Put in this part the array.
-  var mainCheck = JSON.parse(localStorage.getItem('form_data'))
+  var mainCheck = JSON.parse(localStorage.getItem('submit'))
 
   return (
     <div style={{ textAlign: 'centre', padding: '10px' }}>
@@ -48,11 +50,18 @@ function CheckSelect(props) {
             setsearchit(event.target.value)
           }}
         />
-        <Button variant="primary" onClick={async ()=>{
-            let response=await props.onSearch(searchit)
-            console.log(response)
-        }}>Primary</Button>;
-        <table className="table table-striped">
+        <Button
+          onClick={() => {
+            if (isSubmit == false) {
+              setIsSubmit(true)
+            } else {
+              setIsSubmit(false)
+            }
+          }}
+        >
+          Search
+        </Button>
+        <table class="table table-striped">
           <tr>
             <th>Sno.</th>
             <th>Name</th>
@@ -62,24 +71,25 @@ function CheckSelect(props) {
 
           {mainCheck
             .filter((val) => {
-              if (searchit == val.sID && searchit != '') {
+              if (
+                searchit == val.studentRoomHash &&
+                searchit != '' &&
+                isSubmit == true
+              ) {
                 return val
               }
             })
             .map((val, key) => {
               return (
                 <tr className="hi" key={key}>
-                  <td>{val.SerialNumber}</td>
-                  <td>{val.Name}</td>
+                  <td>{1}</td>
+                  <td>{val.studentEmail}</td>
                   <td>
                     <li>
                       <Link
                         to={{
-                          pathname: '/main_checker',
-                          dataPass: {
-                            name: 'Check',
-                            answerSheet: '',
-                          },
+                          pathname: `/main_checker`,
+                          state: "Shashank",
                         }}
                       >
                         {' '}
@@ -92,14 +102,14 @@ function CheckSelect(props) {
                       <Link
                         to={{
                           pathname: '/review_checker',
-                          dataPass: {
+                          aboutProps: {
                             name: 'Check',
-                            answerSheet: '',
+                            answerSheet: { id: val.studentEmail },
                           },
                         }}
                       >
                         {' '}
-                        Main Checking Link
+                        Cross Checking Link
                       </Link>
                     </li>
                   </td>

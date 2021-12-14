@@ -7,15 +7,12 @@ export default function MyPdfViewer(props) {
     const canvasRef = useRef(null);
     const [uri,setUri] =useState();
     const { pdfDocument, pdfPage } = usePdf({
-        file: 'https://ipfs.infura.io/ipfs/'+'QmPfdi9UHQZVcFzJidqBPKL9AsA6mQiAX45mHJGkTJJrUf',
+        file: 'https://ipfs.infura.io/ipfs/'+'QmUeMHRheEi52jujnBCE1yqESWvcdpPNVhc2DmM7RPb8Mu',
         page,
         canvasRef,
     });
 
-    useEffect(async ()=>{
-        // console.log(props.fileHash().answer_sheet)
-        // // setUri(props.fileHash().)
-      },[])
+
     return (
         <div >
             {!pdfDocument && <span>Loading...</span>}

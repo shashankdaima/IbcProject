@@ -20,7 +20,6 @@ import DialogActions from '@material-ui/core/DialogActions'
 import DialogContent from '@material-ui/core/DialogContent'
 
 function MainCheckerPage(props) {
-  console.log(props.location.dataPass.name)
 
   const [answerSheetId,setAnswerSheetId]=useState()
   const [checkerID, setCheckerID] = useState()
@@ -45,7 +44,7 @@ function MainCheckerPage(props) {
     setOpen(false)
   }
 
-  function ClickButton(){
+  function ClickButton(props){
     if (checkerID && studentID && q1 && r1 && q2 && r2 && q3 && r3){
         return <Button variant="primary" type="submit" onClick={openit}>
         Submit</Button>
@@ -83,7 +82,6 @@ function MainCheckerPage(props) {
     )
     console.log(formData)
     const mem = JSON.parse(localStorage.getItem('form_data'))
-    console.log(mem[2].q3f);
     
   }
 
@@ -96,23 +94,20 @@ function MainCheckerPage(props) {
       setFormData(mem)
       console.log('run')
     }
+    console.log(props.location)
   }, [])
   useEffect(() => {
     localStorage.setItem('form_data', JSON.stringify(formData))
-    console.log(formData)
+    // console.log(formData)
   }, [formData])
 
-  useEffect(async ()=>{
-   // var answerSheet=await props.contract.methods.answerSheets(1).call();
-    setAnswerSheet(answerSheet)
-    // console.log(answerSheet)
-  },[])
+ 
   return (
     <Container fluid="md mt-2">
       <Card>
         <Row>
           <Col>
-            {/**<MyPdfViewer fileHash={async ()=>{await props.contract.methods.answerSheets(1).call()}}/>**/}
+            <MyPdfViewer fileHash={async ()=>{await props.contract.methods.answerSheets(1).call()}}/>
           </Col>
 
           <Col>
@@ -198,23 +193,10 @@ function MainCheckerPage(props) {
                 </Form.Group>
 
                 <div style={{ textAlign: 'center' }}>
-                  <ClickButton/>
 
-                  <Dialog open={open} onClose={closeit}>
-                    <DialogTitle>{'Checked Successfully !!!! '}</DialogTitle>
-                    <DialogContent>
-                      <DialogContentText>
-                        You have Succesfully checked the answer sheet for
-                        Student {studentID} Marks provided{' '}
-                        {parseInt(q1) + parseInt(q2) + parseInt(q3)}
-                      </DialogContentText>
-                    </DialogContent>
-                    <DialogActions>
-                      <Button onClick={closeit} color="primary" autoFocus>
-                        Close
-                      </Button>
-                    </DialogActions>
-                  </Dialog>
+                  <Button variant="primary" type="submit" >
+                    Submit
+                  </Button>
                 </div>
               </Form>
             </Card.Body>
