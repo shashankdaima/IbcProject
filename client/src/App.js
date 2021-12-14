@@ -9,11 +9,18 @@ import HomePage from './pages/HomePage'
 import MainCheckerPage from './pages/MainCheckerPage'
 import ReviewCheckerPage from './pages/ReviewCheckerPage'
 import StudentPostAnswerPage from './pages/StudentPostAnswerPage'
-import ProfessorHome from './pages/ProfessorHome'
-import './App.css'
-import '../node_modules/bootstrap/dist/css/bootstrap.min.css'
+import ProfessorHome  from "./pages/ProfessorHome";
+import "./App.css"
+import '../node_modules/bootstrap/dist/css/bootstrap.min.css';
 
-import { Navbar, Container } from 'react-bootstrap'
+import {
+  Navbar,
+  Container
+} from 'react-bootstrap';
+class App extends Component {
+  state = { storageValue: 0, web3: null, accounts: null, contract: null };
+
+  
 import Page404 from './pages/404page'
 class App extends Component {
   state = { storageValue: 0, web3: null, accounts: null, contract: null }
@@ -21,6 +28,7 @@ class App extends Component {
   // https://bafybeifzr4uvto2hm6e7ixpxgbngsnwgk5vhfxk3dxekm3zwmnupur3gom.ipfs.infura-ipfs.io/
   componentDidMount = async () => {
     try {
+
       // Get network provider and web3 instance.
       const web3 = await getWeb3()
 
@@ -80,6 +88,7 @@ class App extends Component {
 
 
 
+
   runExample = async () => {
     const { accounts, contract } = this.state
 
@@ -87,6 +96,11 @@ class App extends Component {
     // await contract.methods.set(7).send({ from: accounts[0] });
 
     // Get the value from the contract to prove it worked.
+    // const response = await contract.methods.get().call();
+
+    // Update state with the result.
+    // this.setState({ storageValue: response });
+  };
     // // const response = await contract.taskCount();
     // const response= await contract.methods.taskCount().send({from:accounts[0]})
     // Update state with the result.
@@ -143,6 +157,11 @@ class App extends Component {
             </div>
           </div>
         </div>
+      </Router >
+    );
+  }
+}
+export default App;
       </Router>
       // <h1>The stored value is: {this.state.response}</h1>
     )

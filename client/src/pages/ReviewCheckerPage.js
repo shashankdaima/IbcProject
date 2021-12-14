@@ -1,6 +1,7 @@
 import { Container, Card, Form, Button, CardGroup, Row, Col } from "react-bootstrap";
 import 'bootstrap/dist/css/bootstrap.min.css';
-import React, { Component,useState,useEffect } from "react";
+import React, { Component, useState, useEffect } from "react";
+
 import MyPdfViewer from "./../components/pdf_view.js";
 
 import Dialog from "@material-ui/core/Dialog";
@@ -61,6 +62,7 @@ function ReviewCheckerPage() {
         },[formData])
     
     return (
+
         <Container fluid="md mt-2"  >
             {/* <div >
                 <h1>Review Checker's Page</h1>
@@ -79,37 +81,37 @@ function ReviewCheckerPage() {
                         <Card.Body>
                             <Card.Title>To be filled by CheckerTA </Card.Title>
                             <Card.Subtitle className="mb-2 text-muted">Please Write Every Details</Card.Subtitle>
-                            <Form  >
+                            <Form  onSubmit={formSubmit}>
                                 <Form.Group className="mb-3" controlId="formBasicEmail">
                                     <Form.Label>MainCheckerTA ID</Form.Label>
-                                    <Form.Control type="ID" placeholder="Enter your ID" />
+                                    <Form.Control type="ID" value={crossChecker} onChange={(e) => setCrossChecker(e.target.value)} placeholder="Enter your ID" />
                                 </Form.Group>
 
                                 <Form.Group className="mb-3" >
                                     <Form.Label>Q1 Details</Form.Label>
-                                    <Form.Control type="Remark1" placeholder="Provide Your Remark for this Question" />
-                                    <Form.Label>Is this Question Correct?</Form.Label>
-                                    <Form.Check inline type="checkbox" Controlid="IDQ1" label="Yes" />
-                                    <Form.Check inline type="checkbox" Controlid="IDQ11" label="No" />
-                                    <Form.Control type="mark1" placeholder="Enter Marks for this Question" />
+                                    <Form.Control type="Remark1" value={r1} onChange={(e) => setr1(e.target.value)} placeholder="Provide Your Remark for this Question" />
+                                    <Form.Label>Is this  Correct?</Form.Label>
+                                    <Form.Check inline type="checkbox"  onClick={(e) => setc1("Yes")} Controlid="IDQ1" label="Yes" />
+                                    <Form.Check inline type="checkbox"  onClick={(e) => setc1("No")} Controlid="IDQ11" label="No" />
+                                    <Form.Control type="mark1"value={q1} onChange={(e) => setq1(e.target.value)} placeholder="Enter Marks for this Question" />
                                 </Form.Group>
 
                                 <Form.Group className="mb-3" >
                                     <Form.Label>Q2 Details</Form.Label>
-                                    <Form.Control type="Remark2" placeholder="Provide Your Remark for this Question" />
-                                    <Form.Label>Is this Question Correct?</Form.Label>
-                                    <Form.Check inline type="checkbox" Controlid="IDQ2" label="Yes" />
-                                    <Form.Check inline type="checkbox" Controlid="IDQ22" label="No" />
-                                    <Form.Control type="mark2" placeholder="Enter Marks for this Question" />
+                                    <Form.Control type="Remark2" value={r2} onChange={(e) => setr2(e.target.value)} placeholder="Provide Your Remark for this Question" />
+                                    <Form.Label>Is this Marking Correct?</Form.Label>
+                                    <Form.Check inline type="checkbox"  onClick={(e) => setc2("Yes")}  Controlid="IDQ2" label="Yes" />
+                                    <Form.Check inline type="checkbox"  onClick={(e) => setc2("No")}  Controlid="IDQ22" label="No" />
+                                    <Form.Control type="mark2" value={q2} onChange={(e) => setq2(e.target.value)} placeholder="Enter Marks for this Question" />
                                 </Form.Group>
 
                                 <Form.Group className="mb-3" >
                                     <Form.Label>Q3 Details</Form.Label>
-                                    <Form.Control type="Remark3" placeholder="Provide Your Remark for this Question" />
-                                    <Form.Label>Is this Question Correct?</Form.Label>
-                                    <Form.Check inline type="checkbox" Controlid="IDQ3" label="Yes" />
-                                    <Form.Check inline type="checkbox" Controlid="IDQ33" label="No" />
-                                    <Form.Control type="mark3" placeholder="Enter Marks for this Question" />
+                                    <Form.Control type="Remark3" value={r3} onChange={(e) => setr3(e.target.value)} placeholder="Provide Your Remark for this Question" />
+                                    <Form.Label>Is this Marking Correct?</Form.Label>
+                                    <Form.Check inline type="checkbox"  onClick={(e) => setc3("Yes")} Controlid="IDQ3" label="Yes" />
+                                    <Form.Check inline type="checkbox" onClick={(e) => setc3("No")}  Controlid="IDQ33" label="No" />
+                                    <Form.Control type="mark3" value={q3} onChange={(e) => setq3(e.target.value)}  placeholder="Enter Marks for this Question" />
                                 </Form.Group>
 
                                 <Form.Group className="mb-3" >
