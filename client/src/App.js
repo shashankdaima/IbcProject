@@ -15,7 +15,7 @@ import '../node_modules/bootstrap/dist/css/bootstrap.min.css'
 
 import { Navbar, Container } from 'react-bootstrap'
 import Page404 from './pages/404page'
-const regex="/(\w+:{0,1}\w*@)?/";
+const regex = '/(w+:{0,1}w*@)?/'
 
 class App extends Component {
   state = { storageValue: 0, web3: null, accounts: null, contract: null }
@@ -51,7 +51,12 @@ class App extends Component {
   createExamRoom = async (fileHash, arrayOfTa) => {
     let roomKey = this.randomHashGenerator32()
     this.state.contract.methods
-      .createExamRoom(roomKey, this.taListEncoder(arrayOfTa), arrayOfTa.length, fileHash)
+      .createExamRoom(
+        roomKey,
+        this.taListEncoder(arrayOfTa),
+        arrayOfTa.length,
+        fileHash,
+      )
       .send({ from: this.state.accounts[0] })
       .on('transactionHash', (hash) => {
         // window.location.reload()
@@ -64,15 +69,15 @@ class App extends Component {
         window.alert('Error')
       })
   }
-  taListEncoder=(taList)=>{
-    var result =""
-    for(var i in taList){
-      result+=taList[i]["text"]+regex
+  taListEncoder = (taList) => {
+    var result = ''
+    for (var i in taList) {
+      result += taList[i]['text'] + regex
     }
     return result
   }
-  taListDecoder=(encodedTaList, taCount)=>{
-    var result =encodedTaList.split(regex)
+  taListDecoder = (encodedTaList, taCount) => {
+    var result = encodedTaList.split(regex)
     return result
   }
   randomHashGenerator32 = () => {
@@ -89,32 +94,39 @@ class App extends Component {
     var index = 1
     while (index <= noOfExamRoomAvailable) {
       let iExamRoom = await this.state.contract.methods.examRooms(index).call()
-      
 
       if (iExamRoom['roomHash'] === roomHash) {
-        var value=iExamRoom["ta_count"];
-       
-        this.getRandomInt(1, iExamRoom["ta_count"])
-        return { response: true, position: index , ta_pos:this.getRandomInt(1,parseInt(Number(value))) }
+        var value = iExamRoom['ta_count']
+
+        return {
+          response: true,
+          position: index,
+          ta_pos: this.getRandomInt(1, parseInt(Number(value))),
+        }
       }
       index++
     }
     return { response: false, position: -1 }
   }
-// 0e5e4A6e1e1A0d36CCe20cEF8E4BcF54
-// cCE95C3a142AfbCE0130e4bc99812ec8
+  // 0e5e4A6e1e1A0d36CCe20cEF8E4BcF54
+  // cCE95C3a142AfbCE0130e4bc99812ec8
 
-  getRandomInt=(min, max)=>{
-    min = Math.ceil(min);
-    max = Math.floor(max);
-    return Math.floor(Math.random() * (max - min + 1)) + min;
+  getRandomInt = (min, max) => {
+    min = Math.ceil(min)
+    max = Math.floor(max)
+    return Math.floor(Math.random() * (max - min + 1)) + min
   }
   uploadAnswerSheet = async (fileHash, email, roomHash) => {
     let response = await this.validRoomHash(roomHash)
-    console.log(response)
+    // console.log(response)
     if (response['response']) {
       this.state.contract.methods
-        .uploadAnswerSheet(fileHash, response['position'], email,response['ta_pos'])
+        .uploadAnswerSheet(
+          fileHash,
+          response['position'],
+          email,
+          response['ta_pos'],
+        )
         .send({ from: this.state.accounts[0] })
         .on('transactionHash', (hash) => {
           // window.location.reload()
@@ -126,7 +138,28 @@ class App extends Component {
     } else {
       alert('Illegal State Exception: Invalid Room Hash')
     }
-   
+  }
+  validRoomHashForChecker = async (roomHash) => {
+    let noOfExamRoomAvailable = await this.state.contract.methods
+      .examRoomPointer()
+      .call()
+    var index = 1
+    while (index <= noOfExamRoomAvailable) {
+      let iExamRoom = await this.state.contract.methods.examRooms(index).call()
+
+      if (iExamRoom['roomHash'] === roomHash) {
+        return {response:true, data:iExamRoom["ta_list"],count:parseInt(Number(iExamRoom["ta_count"])) }
+      }
+      index++
+    }
+    return { response: false,error:"Illegal State Exception: Invalid Room Hash" }
+  }
+
+  getAllAnswerSheetsForMainChecker = async (examRoomHash) => {
+    const currentUser= this.state.accounts[0];
+    let response=await this.validRoomHashForChecker(examRoomHash)
+    console.log(currentUser);
+    console.log(response);
   }
 
   runExample = async () => {
