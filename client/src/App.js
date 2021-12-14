@@ -84,9 +84,10 @@ class App extends Component {
       
 
       if (iExamRoom['roomHash'] === roomHash) {
-        console.log(iExamRoom)
+        var value=iExamRoom["ta_count"];
+       
         this.getRandomInt(1, iExamRoom["ta_count"])
-        return { response: true, position: index , ta_pos:2 }
+        return { response: true, position: index , ta_pos:this.getRandomInt(1,parseInt(Number(value))) }
       }
       index++
     }
