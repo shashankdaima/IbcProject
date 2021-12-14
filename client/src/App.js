@@ -9,18 +9,11 @@ import HomePage from './pages/HomePage'
 import MainCheckerPage from './pages/MainCheckerPage'
 import ReviewCheckerPage from './pages/ReviewCheckerPage'
 import StudentPostAnswerPage from './pages/StudentPostAnswerPage'
-import ProfessorHome  from "./pages/ProfessorHome";
-import "./App.css"
-import '../node_modules/bootstrap/dist/css/bootstrap.min.css';
+import ProfessorHome from './pages/ProfessorHome'
+import './App.css'
+import '../node_modules/bootstrap/dist/css/bootstrap.min.css'
 
-import {
-  Navbar,
-  Container
-} from 'react-bootstrap';
-class App extends Component {
-  state = { storageValue: 0, web3: null, accounts: null, contract: null };
-
-  
+import { Navbar, Container } from 'react-bootstrap'
 import Page404 from './pages/404page'
 class App extends Component {
   state = { storageValue: 0, web3: null, accounts: null, contract: null }
@@ -28,7 +21,6 @@ class App extends Component {
   // https://bafybeifzr4uvto2hm6e7ixpxgbngsnwgk5vhfxk3dxekm3zwmnupur3gom.ipfs.infura-ipfs.io/
   componentDidMount = async () => {
     try {
-
       // Get network provider and web3 instance.
       const web3 = await getWeb3()
 
@@ -56,21 +48,34 @@ class App extends Component {
     }
   }
   createExamRoom = async (fileHash, arrayOfTa) => {
-    console.log(fileHash);
-    console.log(arrayOfTa);
-    const arr=["ta1","ta2","ta3"]
-
+    console.log(fileHash)
+    console.log(arrayOfTa)
+    let roomKey =this.randomHashGenerator32();
     // console.log(this.state.contract)
     this.state.contract.methods
-      .createExamRoom(arrayOfTa.toString(),arr.length,fileHash)
+      .createExamRoom(
+        roomKey,
+        arrayOfTa.toString(),
+        arrayOfTa.length,
+        fileHash,
+      )
       .send({ from: this.state.accounts[0] })
       .on('transactionHash', (hash) => {
-        window.location.reload()
+        // window.location.reload()
+        alert("You exam room is Successfully added to Blockchain. Room Key:"+roomKey)
       })
       .on('error', (e) => {
         window.alert('Error')
       })
-    
+  }
+
+  randomHashGenerator32 = () => {
+    var text = ''
+    var possible =
+      'ABCDEFabcdef0123456789'
+    for (var i = 0; i < 32; i++)
+      text += possible.charAt(Math.floor(Math.random() * possible.length))
+    return text
   }
 
   uploadAnswerSheet = async (fileHash, email) => {
@@ -78,16 +83,13 @@ class App extends Component {
       .uploadAnswerSheet(fileHash, email)
       .send({ from: this.state.accounts[0] })
       .on('transactionHash', (hash) => {
-        window.location.reload()
+        // window.location.reload()
       })
       .on('error', (e) => {
         window.alert('Error')
       })
     // console.log(await this.state.contract.methods.answerSheets(1).call())
   }
-
-
-
 
   runExample = async () => {
     const { accounts, contract } = this.state
@@ -100,14 +102,7 @@ class App extends Component {
 
     // Update state with the result.
     // this.setState({ storageValue: response });
-  };
-    // // const response = await contract.taskCount();
-    // const response= await contract.methods.taskCount().send({from:accounts[0]})
-    // Update state with the result.
-    // this.setState({ storageValue: response });
-    // console.log(response)
   }
-
 
   render() {
     if (!this.state.web3) {
@@ -129,18 +124,17 @@ class App extends Component {
             <div>
               <Switch>
                 <Route exact path="/">
-                  <HomePage />
-                  {/* <ProfessorHome
+                  {/* <HomePage /> */}
+                  <ProfessorHome
                     onRoomCreate={(fileHash, arrayOfTa) => {
                       this.createExamRoom(fileHash, arrayOfTa)
-                    }} */}
-                  {/* /> */}
+                    }} />
                 </Route>
                 <Route path="/result">
                   <ResultPage />
                 </Route>
                 <Route path="/main_checker">
-                  <MainCheckerPage  contract ={this.state.contract}/>
+                  <MainCheckerPage contract={this.state.contract} />
                 </Route>
                 <Route path="/review_checker">
                   <ReviewCheckerPage />
@@ -150,21 +144,19 @@ class App extends Component {
                     onAnswerSheetUpload={(fileHash, email) =>
                       this.uploadAnswerSheet(fileHash, email)
                     }
+                    smartContract={this.state.contract}
                   />
                 </Route>
-                <Route ><Page404/></Route>
+                <Route>
+                  <Page404 />
+                </Route>
               </Switch>
             </div>
           </div>
         </div>
-      </Router >
-    );
-  }
-}
-export default App;
       </Router>
-      // <h1>The stored value is: {this.state.response}</h1>
     )
   }
 }
+
 export default App

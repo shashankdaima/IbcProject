@@ -13,8 +13,8 @@ export default function MyPdfViewer(props) {
     });
 
     useEffect(async ()=>{
-        console.log(props.fileHash().answer_sheet)
-        // setUri(props.fileHash().)
+        // console.log(props.fileHash().answer_sheet)
+        // // setUri(props.fileHash().)
       },[])
     return (
         <div >

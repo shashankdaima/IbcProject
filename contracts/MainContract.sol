@@ -2,61 +2,6 @@
 pragma solidity >=0.4.21 <0.7.0;
 pragma experimental ABIEncoderV2;
 
-library StringUtils {
-    /// @dev Does a byte-by-byte lexicographical comparison of two strings.
-    /// @return a negative number if `_a` is smaller, zero if they are equal
-    /// and a positive numbe if `_b` is smaller.
-    function compare(string memory _a, string memory _b) private returns (int) {
-        bytes memory a = bytes(_a);
-        bytes memory b = bytes(_b);
-        uint minLength = a.length;
-        if (b.length < minLength) minLength = b.length;
-        //@todo unroll the loop into increments of 32 and do full 32 byte comparisons
-        for (uint i = 0; i < minLength; i ++)
-            if (a[i] < b[i])
-                return -1;
-            else if (a[i] > b[i])
-                return 1;
-        if (a.length < b.length)
-            return -1;
-        else if (a.length > b.length)
-            return 1;
-        else
-            return 0;
-    }
-    /// @dev Compares two strings and returns true iff they are equal.
-    function equal(string memory _a, string memory _b) public returns (bool) {
-        return compare(_a, _b) == 0;
-    }
-    /// @dev Finds the index of the first occurrence of _needle in _haystack
-    function indexOf(string memory _haystack, string  memory _needle) private returns (int)
-    {
-    	bytes memory h = bytes(_haystack);
-    	bytes memory n = bytes(_needle);
-    	if(h.length < 1 || n.length < 1 || (n.length > h.length)) 
-    		return -1;
-    	else if(h.length > (2**128 -1)) // since we have to be able to return -1 (if the char isn't found or input error), this function must return an "int" type with a max length of (2^128 - 1)
-    		return -1;									
-    	else
-    	{
-    		uint subindex = 0;
-    		for (uint i = 0; i < h.length; i ++)
-    		{
-    			if (h[i] == n[0]) // found the first char of b
-    			{
-    				subindex = 1;
-    				while(subindex < n.length && (i + subindex) < h.length && h[i + subindex] == n[subindex]) // search until the chars don't match or until we reach the end of a or b
-    				{
-    					subindex++;
-    				}	
-    				if(subindex == n.length)
-    					return int(i);
-    			}
-    		}
-    		return -1;
-    	}	
-    }
-}
 
 contract MainContract {
   uint public taskCount=0; // state variable
@@ -119,7 +64,64 @@ contract MainContract {
   constructor()public{
     taskCount=2;
   }
-
+  /*
+  UTIL FUNCTIONS 
+  
+  */
+  /// @dev Does a byte-by-byte lexicographical comparison of two strings.
+    /// @return a negative number if `_a` is smaller, zero if they are equal
+    /// and a positive numbe if `_b` is smaller.
+    function compare(string memory _a, string memory _b) private returns (int) {
+        bytes memory a = bytes(_a);
+        bytes memory b = bytes(_b);
+        uint minLength = a.length;
+        if (b.length < minLength) minLength = b.length;
+        //@todo unroll the loop into increments of 32 and do full 32 byte comparisons
+        for (uint i = 0; i < minLength; i ++)
+            if (a[i] < b[i])
+                return -1;
+            else if (a[i] > b[i])
+                return 1;
+        if (a.length < b.length)
+            return -1;
+        else if (a.length > b.length)
+            return 1;
+        else
+            return 0;
+    }
+    /// @dev Compares two strings and returns true iff they are equal.
+    function equal(string memory _a, string memory _b) private returns (bool) {
+        return compare(_a, _b) == 0;
+    }
+    /// @dev Finds the index of the first occurrence of _needle in _haystack
+    function indexOf(string memory _haystack, string memory _needle) private returns (int)
+    {
+    	bytes memory h = bytes(_haystack);
+    	bytes memory n = bytes(_needle);
+    	if(h.length < 1 || n.length < 1 || (n.length > h.length)) 
+    		return -1;
+    	else if(h.length > (2**128 -1)) // since we have to be able to return -1 (if the char isn't found or input error), this function must return an "int" type with a max length of (2^128 - 1)
+    		return -1;									
+    	else
+    	{
+    		uint subindex = 0;
+    		for (uint i = 0; i < h.length; i ++)
+    		{
+    			if (h[i] == n[0]) // found the first char of b
+    			{
+    				subindex = 1;
+    				while(subindex < n.length && (i + subindex) < h.length && h[i + subindex] == n[subindex]) // search until the chars don't match or until we reach the end of a or b
+    				{
+    					subindex++;
+    				}	
+    				if(subindex == n.length)
+    					return int(i);
+    			}
+    		}
+    		return -1;
+    	}	
+    }
+// UTIL END
   function uploadAnswerSheet( string memory _answer_sheet, string memory _email)public {
     require(bytes(_answer_sheet).length>0);
     require(bytes(_email).length>0);
@@ -129,24 +131,14 @@ contract MainContract {
     answerSheets[answerSheetPointer]=AnswerSheet(answerSheetPointer, 1, _answer_sheet,_email, msg.sender, 100);
   } 
 
-  function isValidExamRoom(string memory _query) public returns(bool){
-    require(bytes(_query).length>0);
-    uint j;
-    uint len=examRoomPointer;
-    for (j = 1; j <= len; j ++) {  //for loop example
-      if(StringUtils.equal(examRooms[j].roomHash,_query)){
-        return true;
-      }
-    }
-    return false;
-  }
+  
 
-  function createExamRoom(string memory ta_list,uint ta_count,string memory _questionPaperHash)public {
+  function createExamRoom(string memory roomHash,string memory ta_list,uint ta_count,string memory _questionPaperHash)public {
     require(bytes(_questionPaperHash).length>0);
     require(msg.sender!= address(0x0));
     examRoomPointer++;
-    examRooms[examRoomPointer]=ExamRoom(examRoomPointer, "Banana",_questionPaperHash, ta_list, ta_count, msg.sender,now );
-    emit ExamRoomCreated(examRoomPointer,"Banana",_questionPaperHash,  ta_list, ta_count, msg.sender);
+    examRooms[examRoomPointer]=ExamRoom(examRoomPointer, roomHash,_questionPaperHash, ta_list, ta_count, msg.sender,now );
+    emit ExamRoomCreated(examRoomPointer,roomHash,_questionPaperHash,  ta_list, ta_count, msg.sender);
   } 
 
   event ExamRoomCreated(
