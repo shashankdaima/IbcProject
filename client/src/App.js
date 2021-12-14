@@ -48,21 +48,19 @@ class App extends Component {
     }
   }
   createExamRoom = async (fileHash, arrayOfTa) => {
-    console.log(fileHash)
-    console.log(arrayOfTa)
-    let roomKey =this.randomHashGenerator32();
+    // console.log(fileHash)
+    // console.log(arrayOfTa)
+    let roomKey = this.randomHashGenerator32()
     // console.log(this.state.contract)
     this.state.contract.methods
-      .createExamRoom(
-        roomKey,
-        arrayOfTa.toString(),
-        arrayOfTa.length,
-        fileHash,
-      )
+      .createExamRoom(roomKey, arrayOfTa.toString(), arrayOfTa.length, fileHash)
       .send({ from: this.state.accounts[0] })
       .on('transactionHash', (hash) => {
         // window.location.reload()
-        alert("You exam room is Successfully added to Blockchain. Room Key:"+roomKey)
+        alert(
+          'You exam room is Successfully added to Blockchain. Room Key:' +
+            roomKey,
+        )
       })
       .on('error', (e) => {
         window.alert('Error')
@@ -71,24 +69,45 @@ class App extends Component {
 
   randomHashGenerator32 = () => {
     var text = ''
-    var possible =
-      'ABCDEFabcdef0123456789'
+    var possible = 'ABCDEFabcdef0123456789'
     for (var i = 0; i < 32; i++)
       text += possible.charAt(Math.floor(Math.random() * possible.length))
     return text
   }
+  validRoomHash = async (roomHash) => {
+    let noOfExamRoomAvailable = await this.state.contract.methods
+      .examRoomPointer()
+      .call()
+    var index = 1
+    while (index <= noOfExamRoomAvailable) {
+      let iExamRoom = await this.state.contract.methods.examRooms(index).call()
+     
 
-  uploadAnswerSheet = async (fileHash, email) => {
-    this.state.contract.methods
-      .uploadAnswerSheet(fileHash, email)
-      .send({ from: this.state.accounts[0] })
-      .on('transactionHash', (hash) => {
-        // window.location.reload()
-      })
-      .on('error', (e) => {
-        window.alert('Error')
-      })
-    // console.log(await this.state.contract.methods.answerSheets(1).call())
+      if (iExamRoom['roomHash'] === roomHash) {
+        return { response: true, position: index }
+      }
+      index++
+    }
+    return { response: false, position: -1 }
+  }
+  // 99df6F912F2Aae1bEfe6a0b5Ba46Fa36
+  uploadAnswerSheet = async (fileHash, email, roomHash) => {
+    let response = await this.validRoomHash(roomHash)
+    // console.log(response)
+    if (response['response']) {
+      this.state.contract.methods
+        .uploadAnswerSheet(fileHash, response['position'], email)
+        .send({ from: this.state.accounts[0] })
+        .on('transactionHash', (hash) => {
+          // window.location.reload()
+        })
+        .on('error', (e) => {
+          window.alert('Error')
+        })
+      // console.log(await this.state.contract.methods.answerSheets(1).call())
+    } else {
+      alert('Illegal State Exception: Invalid Room Hash')
+    }
   }
 
   runExample = async () => {
@@ -128,7 +147,8 @@ class App extends Component {
                   <ProfessorHome
                     onRoomCreate={(fileHash, arrayOfTa) => {
                       this.createExamRoom(fileHash, arrayOfTa)
-                    }} />
+                    }}
+                  />
                 </Route>
                 <Route path="/result">
                   <ResultPage />
@@ -141,10 +161,10 @@ class App extends Component {
                 </Route>
                 <Route path="/answer_upload">
                   <StudentPostAnswerPage
-                    onAnswerSheetUpload={(fileHash, email) =>
-                      this.uploadAnswerSheet(fileHash, email)
-                    }
-                    smartContract={this.state.contract}
+                    onAnswerSheetUpload={(fileHash, email, roomHash) => {
+                      // console.log(roomHash)
+                      this.uploadAnswerSheet(fileHash, email, roomHash)
+                    }}
                   />
                 </Route>
                 <Route>

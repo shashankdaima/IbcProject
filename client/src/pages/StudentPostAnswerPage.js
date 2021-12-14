@@ -13,6 +13,8 @@ class StudentPostAnswerPage extends Component {
   state = {
     //No file
     selectedFile: null,
+    email:null,
+    examRoomHash:null
   }
   onFileChange = (event) => {
     this.setState({ selectedFile: event.target.files[0] })
@@ -66,8 +68,8 @@ class StudentPostAnswerPage extends Component {
     reader.onloadend = () => {
       // console.log('Buffer data: ', Buffer(reader.result))
       ipfs.add(Buffer(reader.result), (error, result) => {
-        // console.log(result[0].hash) // ipfs save hash milchuka hai
-        this.props.onAnswerSheetUpload(result[0].hash, "temp@temp.com")
+  
+        this.props.onAnswerSheetUpload(result[0].hash, this.state.email,this.state.examRoomHash)
       })
     }
     e.preventDefault()
@@ -91,7 +93,15 @@ class StudentPostAnswerPage extends Component {
             <Form onSubmit={this.retrieveFile} style={{ textAlign: 'start' }}>
               <Form.Group className="mb-3" controlId="formBasicEmail">
                 <Form.Label>Email address</Form.Label>
-                <Form.Control type="email" placeholder="Enter email" required/>
+                <Form.Control type="email" placeholder="Enter email" onChange={(event)=>{
+                  this.state.email=event.target.value
+                }} required/>
+              </Form.Group>
+              <Form.Group className="mb-3" >
+                <Form.Label>Exam Room Hash</Form.Label>
+                <Form.Control type="text" placeholder="Enter Room Hash" onChange={(event)=>{
+                  this.state.examRoomHash=event.target.value
+                }} required/>
               </Form.Group>
               <Form.Group className="mb-3">
                 <Form.Label>Answer Sheet</Form.Label>
