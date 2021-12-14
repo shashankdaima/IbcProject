@@ -1,9 +1,9 @@
 import React from 'react'
 
-function Todo({ todo, index, completeTodo, removeTodo }) {
+function ListElement({ todo, index, completeTodo, removeTodo }) {
   return (
     <div
-      className="todo"
+      
       style={{ textDecoration: todo.isCompleted ? 'line-through' : '' }}
     >
       <div>
@@ -14,7 +14,7 @@ function Todo({ todo, index, completeTodo, removeTodo }) {
   )
 }
 
-function TodoForm({ addTodo }) {
+function PublickeysProviders({ addTodo }) {
   const [value, setValue] = React.useState('')
 
   const handleSubmit = (e) => {
@@ -37,32 +37,32 @@ function TodoForm({ addTodo }) {
 }
 
 function TaList(props) {
-  const [todos, setTodos] = React.useState([])
+  const [publickeys, setPublickeys] = React.useState([])
 
   const addTodo = (text) => {
-    const newTodos = [...todos, { text }]
+    const newTodos = [...publickeys, { text }]
     props.addTa(newTodos);
-    setTodos(newTodos)
+    setPublickeys(newTodos)
   }
 
   const completeTodo = (index) => {
-    const newTodos = [...todos]
+    const newTodos = [...publickeys]
     newTodos[index].isCompleted = true
-    setTodos(newTodos)
+    setPublickeys(newTodos)
   }
 
   const removeTodo = (index) => {
-    const newTodos = [...todos]
+    const newTodos = [...publickeys]
     newTodos.splice(index, 1)
-    setTodos(newTodos)
+    setPublickeys(newTodos)
   }
 
   return (
     <div className="app">
-      <div className="todo-list">
+      <div >
         <h3>Add Private Key of TA's here </h3>
-        {todos.map((todo, index) => (
-          <Todo
+        {publickeys.map((todo, index) => (
+          <ListElement
             key={index}
             index={index}
             todo={todo}
@@ -70,7 +70,7 @@ function TaList(props) {
             removeTodo={removeTodo}
           />
         ))}
-        <TodoForm addTodo={addTodo} />
+        <PublickeysProviders addTodo={addTodo} />
       </div>
     </div>
   )
